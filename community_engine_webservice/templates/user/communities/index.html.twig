@@ -1,0 +1,491 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Profile | Meetsup Community Networking{% endblock %}
+
+{#{% form_theme form 'bootstrap_4_layout.html.twig' %}#}
+
+{% block stylesheets %}
+    <style>
+        .profile-edit-avatar {
+            display: inline-block;
+            position: relative;
+            padding-bottom: 100%;
+            width: 100%;
+            border: 1px solid #ccc;
+            background: center / cover no-repeat;
+        }
+
+        .community-button.btn-outline-primary:active,
+        .community-button.btn-outline-primary:hover,
+        .community-button.btn-outline-primary:disabled,
+        .community-button.btn-outline-primary.active {
+            color: #1a8cb2 !important;
+            border-color: #1a8cb2 !important;
+            background: transparent !important;
+            opacity: 1 !important;
+        }
+
+        .community-button.btn-outline-success:active,
+        .community-button.btn-outline-success:hover,
+        .community-button.btn-outline-success:disabled,
+        .community-button.btn-outline-success.active {
+            color: #28a745 !important;
+            border-color: #28a745 !important;
+            background: transparent !important;
+            opacity: 1 !important;
+        }
+
+        .community-button.btn-success:active,
+        .community-button.btn-success:hover,
+        .community-button.btn-success:disabled,
+        .community-button.btn-success.active {
+            color: #fff !important;
+            background-color: #28a745 !important;
+            border-color: #28a745 !important;
+            opacity: 1 !important;
+        }
+
+        .corner-btn-close {
+            border-radius: 50rem !important;
+        }
+
+        /* toggle switches with bootstrap default colors */
+        .custom-control-input-success:checked ~ .custom-control-label::before {
+            background-color: #28a745 !important;
+            border-color: #28a745 !important;
+        }
+
+        .custom-control-input-danger:checked ~ .custom-control-label::before {
+            background-color: #dc3545 !important;
+            border-color: #dc3545 !important;
+        }
+
+        .custom-control-input-warning:checked ~ .custom-control-label::before {
+            background-color: #ffc107 !important;
+            border-color: #ffc107 !important;
+        }
+
+        .custom-control-input-info:checked ~ .custom-control-label::before {
+            background-color: #1a8cb2 !important;
+            border-color: #1a8cb2 !important;
+        }
+
+        /* Large toggl switches */
+        .custom-switch-lg .custom-control-label::before {
+            left: -2.25rem;
+            width: 3rem;
+            border-radius: 1.5rem;
+        }
+
+        .custom-switch-lg .custom-control-label::after {
+            top: calc(.25rem + 3px);
+            left: calc(-2.25rem + 4px);
+            width: calc(1.5rem - 6px);
+            height: calc(1.5rem - 6px);
+            border-radius: 1.5rem;
+        }
+
+        .custom-switch-lg .custom-control-input:checked ~ .custom-control-label::after {
+            transform: translateX(1.4rem);
+        }
+
+        .custom-switch-lg .custom-control-label::before {
+            height: 1.5rem;
+        }
+
+        .custom-switch-lg .custom-control-label {
+            padding-left: 1.5rem;
+            line-height: 2.2rem;
+        }
+
+        .text-primary {
+            color: #1a8cb2 !important;
+        }
+
+        .welcome-message {
+            line-height: 2rem;
+        }
+
+    </style>
+    {#<link href="{{ asset('assets/corner-popup/css/corner-popup.min.css') }}" rel="stylesheet">#}
+{% endblock %}
+
+{% block body %}
+    <main id="main">
+
+        <!-- ======= Breadcrumbs ======= -->
+        <section id="breadcrumbs" class="breadcrumbs d-none d-lg-block bg-light">
+            <div class="container">
+                {% include 'user/profile/_nav.html.twig' %}
+            </div>
+        </section><!-- End Breadcrumbs -->
+
+        <section class="inner-page pt-4 mb-5">
+            <div class="container">
+                <div class="mt-3">
+                    {% for message in app.flashes('success') %}
+                        <div class="alert alert-success">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+
+                    {% if app.request.getDefaultLocale() == 'ru' %}
+                        {% if app.user.getTelegramId() is empty %}
+                            {% if app.user.getTelegramUsername() is empty %}
+                                <div class="alert bg-light d-flex align-items-center">
+                                    <div class="p-1 pr-3 text-warning"><i class="fa fa-exclamation-circle"
+                                                                          style="font-size: 2rem;"></i></div>
+                                    <div class="p-1">
+                                        Если хотите получать уведомления в Telegram - подключите нашего бота! Для этого
+                                        небходимо перейти по
+                                        <a target="_blank"
+                                           href="https://t.me/{{ tg_bot_name }}?start={{ token }}"><b><u>ссылке</u></b></a>
+                                        и
+                                        нажать &laquo;START&raquo;
+                                    </div>
+                                </div>
+                            {% else %}
+                                <div class="alert bg-light d-flex align-items-strart">
+                                    <div class="p-1 pr-3 pt-2 text-warning">
+                                        <i class="fa fa-exclamation-circle" style="font-size: 2rem;"></i></div>
+                                    <div class="p-1">
+                                        Вы ещё не подключили нашего бота в Telegram. Из-за технических обновлений
+                                        мессенджера, с 12 февраля мы не сможем продолжать отправлять Вам сообщения с
+                                        уведомлениями в Telegram, если у Вас не подключен бот.
+                                        <br/><br/>
+                                        Пожалуйста, подключите Telegram бота, чтобы получать информацию о новых
+                                        контактах в
+                                        мессенджер и общаться с партнёром по встрече прямо в Telegram боте. Для этого
+                                        небходимо перейти по
+                                        <a target="_blank"
+                                           href="https://t.me/{{ tg_bot_name }}?start={{ token }}"><b><u>ссылке</u></b></a>
+                                        и
+                                        нажать &laquo;START&raquo;
+                                    </div>
+                                </div>
+                            {% endif %}
+                        {% endif %}
+                    {% endif %}
+
+                    {% if (app.request.get('welcome') == 1) %}
+                        <div class="welcome-message bg-light p-3 rounded mb-4">
+                            {% apply replace({'{minilogo}': '<img src="/assets/img/logo.svg" style="height: 1rem;">'})|raw %}
+                                {% trans %}Meetsup helps you find new relevant contacts in online communities based on your interests and goals{% endtrans %}
+                                <br/>
+                                {% trans %}How {minilogo}Meetsup work{% endtrans %}:
+                                <ol>
+                                    <li>
+                                        {% trans %}Confirm your participation in the community meetings on this page{% endtrans %}
+                                    </li>
+
+                                    <li>
+                                        {% trans %}On Monday, {minilogo}Meetsup will introduce you to a new contact from the community in the mail and in the connected messenger{% endtrans %}
+                                    </li>
+
+                                    <li>
+                                        {% trans %}You just have to say hello to the selected contact and choose the day and time for an online meeting{% endtrans %}
+                                    </li>
+
+                                </ol>
+                                {% trans %}We wish you great networking together with {minilogo}Meetsup!{% endtrans %}
+                            {% endapply %}
+                        </div>
+                    {% endif %}
+
+                    <div class="mb-5">
+                        <p class="text-justify">
+                            {% trans %}You can confirm your participance in every community where you’re registered{% endtrans %}
+                        </p>
+                    </div>
+
+                    <div>
+                        {% for result in communities %}
+                            <div class="row mb-5 pb-0 pb-lg-3">
+                                <div class="pb-5 pb-lg-2 col-lg-7 order-2 order-md-1 switch-block">
+                                    <div class="row">
+                                        <div class="col-8 col-md-4">
+                                            <img src="{{ result.community.getLogoUrl() }}" class="w-100">
+                                        </div>
+                                        <div class="col-md-8 d-flex align-items-center mt-3 mt-md-0">
+                                            <h5 class="mb-1">{{ result.community.getTitle() }}</h5>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-3">
+                                        <div class="col-12">
+                                            {% if result.community.getUserCommunitySettings().first() and result.community.getUserCommunitySettings().first().getQuestionComplete() %}
+                                                <div class="text-muted">
+                                                    {% trans with {'{community}': result.community.getTitle()|e} %}Are you ready to meet a new contact in the {community} community?{% endtrans %}
+                                                </div>
+                                                <div class="custom-control custom-switch custom-switch-lg mt-1">
+                                                    <input class="custom-control-input ready-button custom-control-input-info"
+                                                           id="ready-{{ result.community.getId() }}"
+                                                           data-id="{{ result.community.getId() }}"
+                                                           data-url="{{ result.community.getUrl() }}"
+                                                            {{ result.community.getUserCommunitySettings().first().getReady() ? 'checked' }}
+                                                           type="checkbox">
+                                                    <label class="custom-control-label font-weight-bold {{ result.community.getUserCommunitySettings().first().getReady() ? 'text-success' : 'text-primary' }}"
+                                                           role="button"
+                                                           for="ready-{{ result.community.getId() }}">
+                                                        {{ result.community.getUserCommunitySettings().first().getReady() ? 'Participance confirmed'|trans : 'Confirm your participance'|trans }}
+                                                    </label>
+                                                </div>
+                                                <div>
+                                                    <a href="#" onclick="event.preventDefault();"
+                                                       class="toggle-looking-for">
+                                                        <small style="border-bottom: 1px dashed #1bb1dc">Изменить
+                                                            критерии поиска партнера
+                                                        </small>
+                                                    </a>
+                                                </div>
+                                                <div class="form-group hidden-looking-for"
+                                                     style="display: none;"
+                                                     id="group-looking-for-{{ result.community.getId() }}">
+                                                    <small class="text-muted ml-1">
+                                                        {{ app.user.getFirstName() }}, обновите ваши пожелания для
+                                                        подобора партнера:
+                                                    </small>
+                                                    <div class="spinner-border text-success spinner-border-sm"
+                                                         id="loader-{{ result.community.getId() }}"
+                                                         role="status" style="display: none;">
+                                                        <span class="sr-only">Loading...</span>
+                                                    </div>
+                                                    <textarea class="form-control form-control-sm"
+                                                              id="looking-for-textarea-{{ result.community.getId() }}"
+                                                              maxlength="255"
+                                                              placeholder="{{ result.community.getUserCommunitySettings().first().getLookingFor()|e }}"></textarea>
+                                                    <button class="mt-2 btn btn-sm btn-outline-success rounded-pill looking-for-save"
+                                                            data-toggle="tooltip"
+                                                            data-placement="right"
+                                                            title="Успешно обновлено!"
+                                                            data-trigger="manual"
+                                                            id="looking-for-button-{{ result.community.getId() }}"
+                                                            data-id="{{ result.community.getId() }}"
+                                                            data-url="{{ path('user_communities_looking_for', {'url': result.community.getUrl()}) }}"
+                                                    >
+                                                        Сохранить
+                                                    </button>
+                                                </div>
+                                            {% else %}
+                                                <div class="col-8 col-md-5 p-0">
+                                                    <a href="{{ path('user_profile_questions', {community: result.community.getUrl()}) }}"
+                                                       class="w-100 btn btn-outline-primary rounded-pill mt-3">
+                                                        {% trans %}Answers to the questionnaire{% endtrans %}
+                                                    </a>
+                                                    <small class="mt-1 d-block text-center text-muted">
+                                                        {% trans %}Answer the questionnaire to participate in meetings{% endtrans %}
+                                                    </small>
+                                                </div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                                {#{{ app.request.get('welcome') == 1 ? 'bg-light ' }}#}
+                                <div class="col-lg-5 d-flex align-items-center justify-content-center order-1 order-md-2 position-md-relative">
+                                    <div id="toast-{{ result.community.getUrl() }}"
+                                         style="z-index: 500;" class="w-100 toast hide position-absolute"
+                                         role="alert" aria-live="assertive" aria-atomic="true" data-delay="60000">
+                                        <div class="toast-header">
+                                            <strong class="mr-auto">{% trans %}Participance confirmed{% endtrans %}</strong>
+                                            <button type="button" class="ml-2 mb-1 close" data-dismiss="toast"
+                                                    aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="toast-body">
+                                            <h5>
+                                                {% trans with {'{community}': result.community.getTitle() } %}The participance in the {community} community is approved{% endtrans %}
+                                            </h5>
+                                            {% trans %}On Monday we will introduce you to your meeting partner via email and connected messenger.
+                                                <br/>Have a successful and useful meeting!{% endtrans %}
+                                        </div>
+                                    </div>
+                                    {% if result.userForReview %}
+                                        {% include "user/communities/_review.html.twig" with {community: result.community, 'user': result.userForReview, 'callUuid': result.callUuid} only %}
+                                    {% elseif app.request.get('welcome') == 1 %}
+                                        {#<div class="text-center">#}
+                                        {#Здесь будет информация о ваших встречах#}
+                                        {#</div>#}
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <hr class="d-block d-md-none" />
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        $(() => {
+
+            $("textarea").each(
+                function () {
+                    $(this).data('holder', $(this).attr('placeholder'));
+                    $(this).focusin(function () {
+                        $(this).attr('placeholder', '');
+                    });
+                    $(this).focusout(function () {
+                        $(this).attr('placeholder', $(this).data('holder'));
+                    });
+
+                });
+
+            let clipboard = new ClipboardJS('.copy-text');
+            clipboard.on('success', function (e) {
+                $(e.trigger).tooltip('show');
+                setTimeout(() => {
+                    $(e.trigger).tooltip('hide');
+                }, 3000);
+            });
+
+            const stars = new Stars(".stars-container", 5);
+
+            $(".stars-container").on("click", (e) => {
+                let elem = $(e.target).closest('.review');
+                elem.find('.connect-rate').addClass('d-none');
+                elem.find('.connect-thanks').removeClass('d-none');
+                if (e.target.id > 3) {
+                    elem.find('.nice-rate').removeClass('d-none');
+                }
+                $.ajax({
+                    method: 'POST',
+                    data: {
+                        'user': elem.data('user'),
+                        'rate': e.target.id,
+                        'connect': elem.data('connect'),
+                        'token': '{{ csrf_token('rate-token') }}',
+                    },
+                    url: "{{ path('user_profile_rate') }}",
+                }).done(function (data) {
+
+                });
+            });
+            $(document).on('click', '.ready-button', (e) => {
+                let elem = $(e.target),
+                    label = elem.parent().find('label'),
+                    url = elem.data('url'),
+                    id = elem.data('id');
+
+                if (elem.prop('checked')) {
+                    $("#group-looking-for-" + id).slideDown('fast');
+                    label.addClass('text-success');
+                    label.removeClass('text-primary');
+                    label.text('{{ 'Participance confirmed'|trans }}');
+                    $('#toast-' + url).toast('show');
+                } else {
+                    label.removeClass('text-success');
+                    label.addClass('text-primary');
+                    label.text('{{ 'Confirm your participance'|trans }}');
+                    $('#toast-' + url).toast('hide');
+                }
+                $.ajax({
+                    method: 'POST',
+                    data: {
+                        'url': url,
+                        'token': '{{ csrf_token('ready-token') }}',
+                    },
+                    url: "{{ path('user_profile_switch_ready') }}",
+                }).done(function (data) {
+                    if (data === true) {
+                    }
+                });
+            });
+
+            $(document).on('click', '.toggle-looking-for', (e) => {
+                $(e.target).closest('.switch-block').find('.hidden-looking-for').slideToggle('fast');
+            });
+
+            $(document).on('click', '.looking-for-save', (e) => {
+                let $this = $(e.target),
+                    url = $this.data('url'),
+                    id = $this.data('id'),
+                    val = $('#looking-for-textarea-' + id).val(),
+                    placeholder = $('#looking-for-textarea-' + id).attr('placeholder'),
+                    loader = $('#loader-' + id),
+                    text = val === '' ? placeholder : val;
+                loader.show();
+                $.ajax({
+                    method: 'POST',
+                    data: {
+                        'lookingFor': text,
+                        'token': '{{ csrf_token('looking-for-token') }}',
+                    },
+                    url: url,
+                }).done(function (data) {
+                    loader.hide();
+                    $this.attr('title', 'Успешно обновлено!');
+                    $this.attr('data-original-title', 'Успешно обновлено!');
+                    $this.tooltip('update').tooltip('show');
+                    setTimeout(() => {
+                        $this.tooltip('hide');
+                    }, 1600);
+                }).fail(function (data) {
+                    loader.hide();
+                    $this.attr('title', data.responseJSON.message);
+                    $this.attr('data-original-title', data.responseJSON.message);
+                    $this.tooltip('update').tooltip('show');
+                    setTimeout(() => {
+                        $this.tooltip('hide');
+                    }, 3000);
+                });
+            });
+
+            {#$(document).on('click', '.notify-switch', (e) => {#}
+            {#let elem = $(e.target),#}
+            {#label = elem.parent().find('label'),#}
+            {#url = elem.data('url');#}
+
+            {#if (elem.prop('checked')) {#}
+            {#label.text('Оповещения включены');#}
+            {#} else {#}
+            {#label.text('Включить оповещения');#}
+            {#}#}
+            {#$.ajax({#}
+            {#method: 'POST',#}
+            {#data: {#}
+            {#'url': url,#}
+            {#'token': '{{ csrf_token('notify-token') }}',#}
+            {#},#}
+            {#url: "{{ path('user_profile_switch_notify') }}",#}
+            {#}).done(function (data) {#}
+
+            {#});#}
+            {#});#}
+
+            $(document).on('click', '.connect-yes', (e) => {
+                $(e.target).closest('.review').find('.connect-quest').addClass('d-none');
+                $(e.target).closest('.review').find('.connect-rate').removeClass('d-none');
+            });
+
+            $(document).on('click', '.connect-no', (e) => {
+                let elem = $(e.target).closest('.review');
+                elem.find('.connect-quest').addClass('d-none');
+                elem.find('.connect-fail').removeClass('d-none');
+                $.ajax({
+                    method: 'POST',
+                    data: {
+                        'user': elem.data('user'),
+                        'rate': -1,
+                        'connect': elem.data('connect'),
+                        'token': '{{ csrf_token('rate-token') }}',
+                    },
+                    url: "{{ path('user_profile_rate') }}",
+                });
+            });
+            {#{% if app.request.get('welcome') == 1 %}#}
+            {#$.fn.cornerpopup({#}
+            {#'variant': 10,#}
+            {#'content': '<h5>Добро пожаловать в Meetsup!</h5>Узнайте какие возможности умного нетворкинга вы можете получить<br/><button class="btn btn-primary mt-3 rounded-pill w-100">УЗНАТЬ &rarr;</button>',#}
+            {#'colors': "#1a8cb2",#}
+            {#'slide': 1,#}
+            {#});#}
+            {#{% endif %}#}
+        });
+    </script>
+    <script src="{{ asset('assets/js/rating.js') }}"></script>
+    <script src="{{ asset('assets/js/clipboard.min.js') }}"></script>
+    {#<script src="{{ asset('assets/corner-popup/js/corner-popup.min.js') }}"></script>#}
+{% endblock %}

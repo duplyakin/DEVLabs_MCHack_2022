@@ -1,0 +1,212 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Profile | Meetsup Community Networking{% endblock %}
+
+{#{% form_theme form 'bootstrap_4_layout.html.twig' %}#}
+
+{% block stylesheets %}
+    <style>
+        .profile-edit-avatar {
+            display: inline-block;
+            position: relative;
+            padding-bottom: 100%;
+            width: 100%;
+            border: 1px solid #ccc;
+            background: center / cover no-repeat;
+        }
+
+        .community-button.btn-outline-primary:active,
+        .community-button.btn-outline-primary:hover,
+        .community-button.btn-outline-primary:disabled,
+        .community-button.btn-outline-primary.active {
+            color: #1a8cb2 !important;
+            border-color: #1a8cb2 !important;
+            background: transparent !important;
+            opacity: 1 !important;
+        }
+
+        .community-button.btn-outline-success:active,
+        .community-button.btn-outline-success:hover,
+        .community-button.btn-outline-success:disabled,
+        .community-button.btn-outline-success.active {
+            color: #28a745 !important;
+            border-color: #28a745 !important;
+            background: transparent !important;
+            opacity: 1 !important;
+        }
+
+        .community-button.btn-success:active,
+        .community-button.btn-success:hover,
+        .community-button.btn-success:disabled,
+        .community-button.btn-success.active {
+            color: #fff !important;
+            background-color: #28a745 !important;
+            border-color: #28a745 !important;
+            opacity: 1 !important;
+        }
+
+        .corner-btn-close {
+            border-radius: 50rem !important;
+        }
+
+        /* toggle switches with bootstrap default colors */
+        .custom-control-input-success:checked ~ .custom-control-label::before {
+            background-color: #28a745 !important;
+            border-color: #28a745 !important;
+        }
+
+        .custom-control-input-danger:checked ~ .custom-control-label::before {
+            background-color: #dc3545 !important;
+            border-color: #dc3545 !important;
+        }
+
+        .custom-control-input-warning:checked ~ .custom-control-label::before {
+            background-color: #ffc107 !important;
+            border-color: #ffc107 !important;
+        }
+
+        .custom-control-input-info:checked ~ .custom-control-label::before {
+            background-color: #1a8cb2 !important;
+            border-color: #1a8cb2 !important;
+        }
+
+        /* Large toggl switches */
+        .custom-switch-lg .custom-control-label::before {
+            left: -2.25rem;
+            width: 3rem;
+            border-radius: 1.5rem;
+        }
+
+        .custom-switch-lg .custom-control-label::after {
+            top: calc(.25rem + 3px);
+            left: calc(-2.25rem + 4px);
+            width: calc(1.5rem - 6px);
+            height: calc(1.5rem - 6px);
+            border-radius: 1.5rem;
+        }
+
+        .custom-switch-lg .custom-control-input:checked ~ .custom-control-label::after {
+            transform: translateX(1.4rem);
+        }
+
+        .custom-switch-lg .custom-control-label::before {
+            height: 1.5rem;
+        }
+
+        .custom-switch-lg .custom-control-label {
+            padding-left: 1.5rem;
+            line-height: 2rem;
+        }
+
+    </style>
+    <link href="{{ asset('assets/corner-popup/css/corner-popup.min.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+    <main id="main">
+
+        <!-- ======= Breadcrumbs ======= -->
+        <section id="breadcrumbs" class="breadcrumbs d-none d-lg-block">
+            <div class="container">
+                {% include 'user/profile/_nav.html.twig' %}
+            </div>
+        </section><!-- End Breadcrumbs -->
+
+        <section class="inner-page pt-4 mb-5">
+            <div class="container">
+                <div class="container mt-3">
+
+                    {% for message in app.flashes('success') %}
+                        <div class="alert alert-success">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+
+                    <div class="mb-5">
+                        <h3 class="alert alert-link pl-0 text-justify">
+                            {% trans %}Notifications & community settings{% endtrans %}
+                        </h3>
+                    </div>
+
+                    <div>
+                        {% for result in communities %}
+                            <div class="row mb-5 pb-0 pb-lg-5">
+                                <div class="pb-5 pb-lg-2 col-lg-7 order-2 order-md-1">
+                                    <div class="row">
+                                        <div class="col-8 col-md-4">
+                                            <img src="{{ result.community.getLogoUrl() }}" class="w-100">
+                                        </div>
+                                        <div class="col-md-8 d-flex align-items-center mt-3 mt-md-0">
+                                            <div>
+                                                <h5 class="mb-1">{{ result.community.getTitle() }}</h5>
+                                                <small>
+                                                    <a href="{{ path('user_communities_questions', {community: result.community.getUrl()}) }}">
+                                                        <i class="fa fa-pencil"></i>
+                                                        {% trans %}Answers to the questionnaire{% endtrans %}
+                                                    </a>
+                                                </small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-3">
+                                        <div class="col-12">
+                                            <div class="text-muted">
+                                                {% trans with {'{community}': result.community.getTitle()|e} %}Enable notifications for upcoming community {community} events{% endtrans %}
+                                            </div>
+                                            <div class="custom-control custom-switch custom-switch-lg">
+                                                <input data-url="{{ result.community.getUrl() }}"
+                                                       class="custom-control-input notify-switch custom-control-input-info"
+                                                       id="notify-{{ result.community.getId() }}"
+                                                       type="checkbox"
+                                                        {{ result.community.getUserCommunitySettings().first() and result.community.getUserCommunitySettings().first().getSendNotifications() ? 'checked' : '' }}
+                                                >
+                                                <label class="custom-control-label"
+                                                       for="notify-{{ result.community.getId() }}">
+                                                    {{ result.community.getUserCommunitySettings().first() and result.community.getUserCommunitySettings().first().getSendNotifications() ? 'Notifications enabled'|trans : 'Enable notifications'|trans }}
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {#<div class="row mt-3">#}
+                                    {#<div class="col-12">#}
+                                    {#<a href="#" class="text-danger p-0 rounded-pill btn-sm">Выйти из сообщества</a>#}
+                                    {#</div>#}
+                                    {#</div>#}
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        $(() => {
+            $(document).on('click', '.notify-switch', (e) => {
+                let elem = $(e.target),
+                    label = elem.parent().find('label'),
+                    url = elem.data('url');
+
+                if (elem.prop('checked')) {
+                    label.text('{{ 'Notifications enabled'|trans }}');
+                } else {
+                    label.text('{{ 'Enable notifications'|trans }}');
+                }
+                $.ajax({
+                    method: 'POST',
+                    data: {
+                        'url': url,
+                        'token': '{{ csrf_token('notify-token') }}',
+                    },
+                    url: "{{ path('user_profile_switch_notify') }}",
+                }).done(function (data) {
+
+                });
+            });
+
+        });
+    </script>
+{% endblock %}

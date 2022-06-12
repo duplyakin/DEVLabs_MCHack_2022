@@ -1,0 +1,150 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Users of Community{% endblock %}
+
+{% block body %}
+    <main id="main">
+
+        <!-- ======= Breadcrumbs ======= -->
+        <section id="breadcrumbs" class="breadcrumbs d-none d-lg-block bg-light">
+            <div class="container">
+                {% include 'user/profile/_nav.html.twig' %}
+            </div>
+        </section><!-- End Breadcrumbs -->
+
+        <section class="inner-page pt-4 mb-5">
+            <div class="container">
+                <div class="mt-3">
+                    {% for message in app.flashes('success') %}
+                        <div class="alert alert-success">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <h3>
+                    <a href="{{ path('manager_community') }}"><i class="fa fa-long-arrow-left" aria-hidden="true"></i>
+                        Community List</a> |
+                    {{ community.getTitle() }} | <span class="text-muted">Users({{ users.getTotalItemCount }})</span>
+                </h3>
+
+                <div class="pull-left sortable" style="padding-top: 20px;">
+                    Sort by
+                    {{ knp_pagination_sortable(users, 'created date', 'u.created_at', {}, {}, '@KnpPaginator/Pagination/twitter_bootstrap_v4_font_awesome_sortable_link.html.twig') }}
+                </div>
+                <div class="pull-right">
+                    {{ knp_pagination_filter(users, {
+                        'u.firstName': 'First Name',
+                        'u.lastName': 'Last Name',
+                        'u.email': 'E-mail',
+                        'u.facebookLink': 'Facebook',
+                        'u.linkedinLink': 'LinkedIn',
+                        'u.telegramUsersname': 'Telegram',
+                    }, {}, {}, '@KnpPaginator/Pagination/twitter_bootstrap_v4_filtration.html.twig') }}
+                    <small class="text-muted">Example: <b>Alex%</b> for search Alexander</small>
+                </div>
+                <br/><br/>
+                <div class="clearfix"></div>
+
+                <table class="table">
+                    <tbody>
+                    {% for user in users %}
+                        <tr>
+                            <td>
+                                <div style="background: #f5f5f5; border-radius: 5px;" class="p-3">
+                                    <div class="image-cropper align-middle" style="
+                                            display: inline-block;
+                                            width: 310px;
+                                            height: 310px;
+                                            background: url('{{ user.getPictureUrl() }}') center / cover no-repeat;
+                                            ">
+                                    </div>
+                                    <br/><br/>
+                                    <small>
+                                        <i class="fa fa-envelope" aria-hidden="true"></i>
+                                        <a target="_blank"
+                                           href="mailto:{{ user.getActualEmail()|e }}">{{ user.getActualEmail()|e }}</a>
+                                    </small>
+                                    <br/>
+                                    {% if user.getTelegramUsername() %}
+                                        <small>
+                                            <i class="fa fa-telegram" aria-hidden="true"></i>
+                                            <a target="_blank"
+                                               href="https://t.me/{{ user.getTelegramUsername()|e|slice(1) }}">{{ user.getTelegramUsername()|e }}</a>
+                                        </small>
+                                        <br/>
+                                    {% endif %}
+                                    {% if user.getFaceBooklink() %}
+                                        <small>
+                                            <i class="fa fa-facebook-square" aria-hidden="true"></i>
+                                            <a target="_blank"
+                                               href="{{ user.getFacebookLink()|e }}">{{ user.getFacebookLink()|e|u.truncate(50, '...') }}</a>
+                                        </small>
+                                        <br/>
+                                    {% endif %}
+                                    {% if user.getLinkedinlink() %}
+                                        <small>
+                                            <i class="fa fa-linkedin-square" aria-hidden="true"></i>
+                                            <a target="_blank"
+                                               href="{{ user.getLinkedinLink()|e }}">{{ user.getLinkedinLink()|e|u.truncate(50, '...') }}</a>
+                                        </small>
+                                    {% endif %}
+                                </div>
+                            </td>
+                            <td>
+                                <div>
+                                    <h3>{{ user.getFullName()|e }}</h3>
+                                    <i class="fa fa-calendar" aria-hidden="true"></i>
+                                    <small>{{ user.getCreatedAt().format('Y-m-d') }}</small>
+                                    <br/>
+                                </div>
+                                <small>{{ user.getProfileComplete() ? '✅' : '❌' }} Profile complete</small>
+                                <br/>
+                                {% if user.userCommunitySettings().first() %}
+                                    {% set settings = user.userCommunitySettings().first() %}
+                                    <small>{{ settings.getQuestionComplete() ? '✅' : '❌' }} Onboarding complete</small>
+                                    <br/>
+                                    <small>{{ settings.getSendNotifications() ? '✅' : '❌' }} Send Notifications</small>
+                                    <br/>
+                                    <small>
+                                        {{ settings.getReady() ? '✅' : '❌' }} Ready for match (to {{ "now"|date("Y-m-d") }})
+                                    </small>
+                                    <br/>
+                                    <small>About:</small><br/>
+                                    {{ user.getAbout()|e }}<br/><br/>
+                                    <small>Looking for:</small><br/>
+                                    {{ settings.getLookingFor()|e }}
+                                {% else %}
+                                    <small>❌ Onboarding complete</small><br/>
+                                {% endif %}
+                                <br/><br/>
+                                {% for answer in user.getAnswers() %}
+                                    <span class="badge badge-secondary">{{ answer.getTitle()|e }}</span>
+                                {% endfor %}
+                            </td>
+                        </tr>
+                        {#<tr>#}
+                        {#<td colspan="2" style="border: 0;">#}
+                        {#{% for answer in user.getAnswers() %}#}
+                        {#<span class="badge badge-secondary">{{ answer.getTitle()|e }}</span>#}
+                        {#{% endfor %}#}
+                        {#</td>#}
+                        {#</tr>#}
+                    {% endfor %}
+                    </tbody>
+                </table>
+
+                <br/>
+                <div class="navigation">
+                    {{ knp_pagination_render(users) }}
+                </div>
+
+            </div>
+        </section>
+    </main>
+    <style>
+        .sortable span {
+            margin-left: 3px;
+        }
+    </style>
+{% endblock %}

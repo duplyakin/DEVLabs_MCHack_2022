@@ -1,0 +1,285 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Profile | Meetsup Community Networking{% endblock %}
+
+{% form_theme form 'bootstrap_4_layout.html.twig' %}
+
+{% block stylesheets %}
+    <link href="/assets/css/select2.min.css" rel="stylesheet"/>
+    <link href="/assets/css/select2-bootstrap.min.css" rel="stylesheet"/>
+    <style>
+        .profile-edit-avatar {
+            display: inline-block;
+            position: relative;
+            padding-bottom: 80%;
+            width: 80%;
+            border: 1px solid #ccc;
+            background: center / cover no-repeat;
+        }
+
+        .upload-picture {
+            position: absolute;
+            bottom: 12%;
+            right: 15%;
+        }
+
+        .upload-picture button {
+            border-radius: 50%;
+            font-size: 25px;
+            border: 2px solid #fff;
+        }
+
+        .upload-picture button:hover {
+            border: 2px solid #fff;
+        }
+
+        #profile-picture {
+            position: absolute;
+            overflow: hidden;
+            visibility: hidden;
+        }
+
+        .error-photo {
+            font-size: 12px;
+            color: red;
+        }
+
+        .position-relative {
+            position: relative;
+        }
+
+        .profile-edit-avatar.error {
+            border: 1px solid red;
+        }
+
+        .link-edit-avatar {
+            cursor: pointer;
+        }
+
+        .img-loader {
+            position: absolute;
+            top: calc(50% - 25px);
+            left: calc(50% - 25px);
+            display: none;
+            opacity: 1 !important;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <script>
+        function verifyDelete() {
+            let button = document.getElementById("delete-button");
+            let phrase = document.getElementById("phrase-input");
+            if (phrase.value === 'delete my account') {
+                button.disabled = false;
+            } else {
+                button.disabled = true;
+            }
+        }
+    </script>
+
+    <main id="main">
+
+        <!-- ======= Breadcrumbs ======= -->
+        <section id="breadcrumbs" class="breadcrumbs d-none d-lg-block bg-light">
+            <div class="container">
+                {% include 'user/profile/_nav.html.twig' %}
+            </div>
+        </section><!-- End Breadcrumbs -->
+
+        <section class="inner-page pt-4">
+            <div class="container">
+                {% for message in app.flashes('success') %}
+                    <div class="alert alert-success">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+                <div class="row my-2">
+                    <div class="col-lg-4 order-lg-1 text-center">
+                        <div class="position-relative">
+                            <div class="image-cropper profile-edit-avatar mx-auto"
+                                 style="background-image: url('{{ app.user.getPictureUrl() }}');">
+                                <div class="loader img-loader"></div>
+                                <input type="file" id="profile-picture">
+                            </div>
+                            <div class="upload-picture">
+                                <button class="upload btn btn-success">
+                                    <i class="fa fa-upload"></i>
+                                </button>
+                            </div>
+                            <div class="error-photo">&nbsp;</div>
+                        </div>
+                        {#<div class="mt-5 mb-2 card card-body bg-light">#}
+                        {#<div class="input-group mb-3 mt-2 text-left">#}
+                        {#<div class="mb-2">#}
+                        {#Приглашайте Ваших знакомых присоединиться к <img src="/assets/img/logo.svg" style="height: 1rem;">Meetsup!#}
+                        {#<br/>#}
+                        {#<br/>#}
+                        {#Ваш персональный инвайт:#}
+                        {#</div>#}
+                        {#<input type="text" class="form-control" id="copy-id-value"#}
+                        {#value="{{ url('invite', {'id': app.user.getPublicId()}) }}"#}
+                        {#aria-describedby="basic-addon2">#}
+                        {#<div class="input-group-append">#}
+                        {#<button data-toggle="tooltip" title="Скопировано!" data-placement="bottom"#}
+                        {#class="btn btn-outline-info copy-text"#}
+                        {#data-clipboard-target="#copy-id-value" type="button"><i#}
+                        {#class="fa fa-copy"></i>#}
+                        {#</button>#}
+                        {#</div>#}
+                        {#<small class="d-block mt-2">#}
+                        {#Его можно отправить открытым для нетворкинга основателям и сотрудникам стартапов или#}
+                        {#инвесторам из вашего окружения, которых вы будете рады пригласить в Meetsup#}
+                        {#</small>#}
+                        {#</div>#}
+                        {#</div>#}
+                    </div>
+                    <div class="col-lg-8 order-lg-2 mt-4 mt-md-0">
+                        <div class="pull-right">
+                            <a href="{{ path('user_profile_notification') }}">
+                                <i class="fa fa-cog"></i>
+                                {% trans %}Notifications & community settings{% endtrans %}
+                            </a>
+                        </div>
+                        <div class="mt-5">
+                            {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+                            {{ form_widget(form) }}
+                            {{ form_end(form) }}
+                        </div>
+                        <div class="mt-5 pt-5">
+                            <h3>{% trans %}Delete account{% endtrans %}</h3>
+                            <hr/>
+                            {% trans %}Once you delete your account, there is no going back. Please be certain.{% endtrans %}
+                            <div class="mt-4 mb-5">
+                                <button class="btn btn-danger" data-toggle="modal"
+                                        data-target="#confirm-delete-account">
+                                    {% trans %}Delete your account{% endtrans %}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <div class="modal" tabindex="-1" role="dialog" id="confirm-delete-account">
+        <form method="post" action="{{ path('user_profile_delete_account') }}">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">{% trans %}Are you sure you want to do this?{% endtrans %}</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="alert alert-danger">
+                            {% trans %}This is extremely important.{% endtrans %}
+                        </div>
+                        <div class="form-group">
+                            <label for="phrase-input">{% trans %}To verify, type <b><i>delete my
+                                    account</i></b> below{% endtrans %}:</label>
+                            <input type="text" name="delete-account-phrase" class="form-control" id="phrase-input"
+                                   onInput="verifyDelete()">
+                            <small id="phrase-input-help" class="form-text text-muted"></small>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" id="delete-button" class="btn btn-danger" disabled>
+                            {% trans %}Delete this account{% endtrans %}
+                        </button>
+                        <button type="button" class="btn btn-secondary"
+                                data-dismiss="modal">{% trans %}Abort{% endtrans %}</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        $(document).ready(function () {
+            $('.select2').select2({
+                width: '100%',
+                theme: 'bootstrap',
+                maximumSelectionLength: 2
+            });
+
+            $(document).on('change', '.select2', (e) => {
+                let id = e.target.dataset.id;
+                $('.answer-q-' + id).val('');
+            });
+
+            $(document).on('click', '.upload', (e) => {
+                $('#profile-picture').click();
+            });
+
+            $(document).on('change', '#profile-picture', (e) => {
+                savePhoto(e.target);
+            });
+
+            function savePhoto(inputFile) {
+                let file = inputFile.files[0];
+                let data = new FormData();
+                let error = $('.error-photo');
+                let picture = $('.profile-edit-avatar');
+                let loader = $('.img-loader');
+                data.append('photo', file, file.name);
+                error.text('');
+                picture.removeClass('error');
+                loader.show();
+                picture.css('opacity', 0.3);
+                $.ajax({
+                    url: "/user/profile/photo-upload",
+                    type: "POST",
+                    responseType: 'json',
+                    data: data,
+                    processData: false,
+                    contentType: false,
+                    cache: false,
+                    success: (response) => {
+                        loader.hide();
+                        picture.css('opacity', 1);
+                        if (response.url !== undefined) {
+                            picture.css('background-image', 'url("' + response.url + '")');
+                            error.text('');
+                            picture.removeClass('error');
+                        } else {
+                            error.text(response.errorText);
+                            picture.addClass('error');
+                        }
+                    },
+                    error: (response) => {
+                        loader.hide();
+                        picture.css('opacity', 1);
+                        error.text('{{ 'File size should not exceed {size}Mb'|trans({'{size}': 1}) }}');
+                        picture.addClass('error');
+                    },
+                });
+            }
+        });
+    </script>
+    <script>
+        $(() => {
+            let hash = window.location.hash;
+            let calendlyElem = $('#user_calendlyLink');
+            if (hash === '#calendly_highlight' && !calendlyElem.hasClass('is-invalid')) {
+                calendlyElem.closest(".form-group").addClass('alert alert-success');
+                calendlyElem.focus();
+            }
+
+            let clipboard = new ClipboardJS('.copy-text');
+            clipboard.on('success', function (e) {
+                $('.copy-text').tooltip('show');
+                setTimeout(() => {
+                    $('.copy-text').tooltip('hide');
+                }, 3000);
+            });
+        });
+    </script>
+    <script src="/assets/js/clipboard.min.js"></script>
+    <script src="/assets/js/select2.min.js"></script>
+
+{% endblock %}

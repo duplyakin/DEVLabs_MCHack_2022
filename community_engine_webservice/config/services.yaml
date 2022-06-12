@@ -1,0 +1,107 @@
+# This file is the entry point to configure your own services.
+# Files in the packages/ subdirectory configure your dependencies.
+
+# Put parameters here that don't need to change on each machine where the app is deployed
+# https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
+parameters:
+    telegram_route_secret: '%env(TELEGRAM_BOT_TOKEN)%'
+    mail_from: '%env(MAIL_FROM)%'
+    mail_support: '%env(MAIL_SUPPORT)%'
+    default_uri: '%env(DEFAULT_URI)%'
+    default_host: '%env(DEFAULT_HOST)%'
+    cookie_domain: '%env(COOKIE_DOMAIN)%'
+    sentiment_dp_uri: '%env(SENTIMENT_DP_URI)%'
+
+services:
+    # default configuration for services in *this* file
+    _defaults:
+        autowire: true      # Automatically injects dependencies in your services.
+        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+
+    # makes classes in src/ available to be used as services
+    # this creates a service per class whose id is the fully-qualified class name
+    App\:
+        resource: '../src/'
+        exclude:
+            - '../src/DependencyInjection/'
+            - '../src/Entity/'
+            - '../src/Kernel.php'
+            - '../src/Tests/'
+
+    # controllers are imported separately to make sure services can be injected
+    # as action arguments even if you don't extend any base controller class
+    App\Controller\:
+        resource: '../src/Controller/'
+        tags: ['controller.service_arguments']
+
+    # add more service definitions when explicit configuration is needed
+    # please note that last definitions always *replace* previous ones
+
+#    App\MessageHandler\CreateTelegramGroupMessageHandler:
+#            public: true
+#            arguments:
+#                $settings:
+#                    authorization:
+#                        default_temp_auth_key_expires_in: 31104000
+#                    logger:
+#                        logger_param: '%kernel.logs_dir%/madeline.log'
+
+    danog\MadelineProto\API:
+            public: true
+            arguments:
+                - '%kernel.project_dir%/var/cache/session.madeline'
+                -
+                  async: false
+                  authorization:
+                      default_temp_auth_key_expires_in: 31104001
+#                  app_info:
+#                      api_id: 1860135
+#                      api_hash: '2f2ec175dfb1d5b1dbd6ba1fdc83dce5'
+                  logger:
+                      logger_param: '%kernel.logs_dir%/madeline.log'
+
+
+    app.telegram.command.help:
+        class: BoShurik\TelegramBotBundle\Telegram\Command\HelpCommand
+        arguments:
+            - '@BoShurik\TelegramBotBundle\Telegram\Command\CommandRegistry'
+        tags:
+            - { name: boshurik_telegram_bot.command }
+
+    BoShurik\TelegramBotBundle\Guard\UserLoaderInterface: '@App\Security\TelegramUserProvider'
+    BoShurik\TelegramBotBundle\Guard\UserFactoryInterface: '@App\Security\TelegramUserProvider'
+
+    App\Service\Call\MakeCallService:
+        arguments:
+            $logger: '@monolog.logger.metric'
+
+    App\MessageHandler\ConnectByCommunityMessageHandler:
+        arguments:
+            $logger: '@monolog.logger.metric'
+
+    App\EventSubscriber\TelegramUpdateSubscriber:
+        arguments:
+            $logger: '@monolog.logger.tgbot'
+
+    App\MessageHandler\TelegramBotSendMessageHandler:
+        arguments:
+            $logger: '@monolog.logger.tgbot'
+
+    communityService:
+        class: App\Service\CommunityService
+
+    securityService:
+        class: App\Service\SecurityService
+
+    App\Service\Notification\Transport\TelegramBot:
+        public: true
+
+    App\Service\Notification\Transport\Email:
+        public: true
+
+    App\Service\Notification\Transport\TelegramNative:
+        public: true
+
+    Predis\Client:
+        arguments:
+            - '%env(REDIS_DSN)%'

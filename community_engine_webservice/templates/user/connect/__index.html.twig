@@ -1,0 +1,99 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Meets'up Community Networking{% endblock %}
+
+{% block body %}
+    <main id="main">
+        <!-- ======= Breadcrumbs ======= -->
+        <section id="breadcrumbs" class="breadcrumbs">
+            <div class="container">
+
+                <ol>
+                    <li><a href="/">Главная</a></li>
+                    <li>Коннект</li>
+                </ol>
+            </div>
+        </section><!-- End Breadcrumbs -->
+        <section class="inner-page pt-4">
+            <div class="container">
+                <div id="meet"></div>
+                <div class="loader" style="display: none;"></div>
+            </div>
+        </section>
+    </main>
+    <style>
+        #meet {
+            text-align: center;
+        }
+    </style>
+{% endblock %}
+
+{% block javascripts %}
+    <script src='https://meet.jit.si/external_api.js'></script>
+    <script>
+        const domain = 'meet.jit.si';
+        const options = {
+            roomName: '{{ call_uuid }}',
+            width: '100%',
+            height: 550,
+            parentNode: document.querySelector('#meet'),
+            userInfo: {
+                email: '{{ app.user.email }}',
+                displayName: '{{ app.user.firstName }}'
+            },
+            configOverwrite: {
+                subject: 'Meets\'up conference',
+                prejoinPageEnabled: true,
+                resolution: 720,
+                constraints: {
+                    video: {
+                        // aspectRatio: 16 / 9,
+                        height: {
+                            ideal: 720,
+                            max: 720,
+                            min: 720
+                        }
+                    }
+                },
+                logoImageUrl: 'https://www.meetsup.co/assets/img/favicon.png',
+            },
+            interfaceConfigOverwrite: {
+                DEFAULT_LOCAL_DISPLAY_NAME: '{{ app.user.firstName }}',
+                HIDE_INVITE_MORE_HEADER: true,
+                SHOW_CHROME_EXTENSION_BANNER: false,
+                DISPLAY_WELCOME_PAGE_CONTENT: false,
+                RECENT_LIST_ENABLED: false,
+                GENERATE_ROOMNAMES_ON_WELCOME_PAGE: false,
+                SHOW_BRAND_WATERMARK: false,
+                SHOW_JITSI_WATERMARK: false,
+                DEFAULT_LOGO_URL: 'https://www.meetsup.co/assets/img/favicon.png',
+                DEFAULT_WELCOME_PAGE_LOGO_URL: 'https://www.meetsup.co/assets/img/favicon.png',
+                TOOLBAR_BUTTONS: [
+                    'microphone', 'camera', 'closedcaptions', 'desktop', 'fullscreen',
+                    'fodeviceselection', 'hangup', 'chat',
+                    'etherpad',
+                    'videoquality', 'stats', 'shortcuts',
+                    'videobackgroundblur', 'download', 'mute-everyone'
+                ]
+            }
+        };
+        const api = new JitsiMeetExternalAPI(domain, options);
+        api.addEventListener('videoConferenceLeft', (room) => {
+            $('#meet').hide();
+            $('.loader').show();
+            window.location.href = '/user/review/' + room.roomName;
+        });
+        api.addEventListener(`videoConferenceJoined`, () => {
+            const listener = ({ enabled }) => {
+                api.removeEventListener(`tileViewChanged`, listener);
+
+                if (!enabled) {
+                    api.executeCommand(`toggleTileView`);
+                }
+            };
+
+            api.addEventListener(`tileViewChanged`, listener);
+            api.executeCommand(`toggleTileView`);
+        });
+    </script>
+{% endblock %}

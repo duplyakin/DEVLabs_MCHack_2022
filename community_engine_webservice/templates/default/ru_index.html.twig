@@ -1,0 +1,258 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Meetsup - Онлайн нетворкинг с релевантными для вас профессиональными контактами{% endblock %}
+
+{% block body %}
+    <!-- ======= Hero Section ======= -->
+    <section id="hero" class="clearfix">
+        <div class="container d-flex h-100">
+            <div class="row justify-content-center align-self-center w-100" data-aos="fade-up">
+                <div class="col-md-6 intro-info order-md-first order-last" data-aos="zoom-in" data-aos-delay="100">
+                    <h1 class="index-header">
+                        Онлайн нетворкинг
+                        с релевантными для вас
+                        профессиональными
+                        контактами
+                    </h1>
+                    <div class="mt-1 mb-5" style="font-size: 1.1em">
+                        Каждую неделю Meetsup знакомит вас с новыми людьми, с учетом ваших интересов и задач.
+                        Бесплатно.
+                    </div>
+                    <div class="mt-2">
+                        <a href="/connect" class="btn-get-started">Попробовать</a>
+                    </div>
+                </div>
+
+                <div class="col-md-6 intro-img order-md-last order-first" data-aos="zoom-out" data-aos-delay="200">
+                    <img src="/assets/img/top-index.svg" alt="" class="img-fluid">
+                </div>
+            </div>
+
+        </div>
+    </section><!-- End Hero -->
+
+    <main id="main">
+        <section id="about" class="why-us bg-light pt-3 pb-5">
+            <div class="container" data-aos="fade-up">
+                <header class="section-header">
+                    <h2 class="mt-5 mb-5 index-header text-center">Как работает Meetsup?</h2>
+                </header>
+                <div class="row" style="font-size: 1.1em">
+                    <div class="col-lg-4 text-center" data-aos="zoom-in" data-aos-delay="100">
+                        <img src="/assets/img/step-1.svg" alt="" class="img-fluid">
+                        <div class="p-4 fs-3">Уточните ваши профессиональные интересы и задачи</div>
+                    </div>
+                    <div class="col-lg-4 text-center" data-aos="zoom-in" data-aos-delay="100">
+                        <img src="/assets/img/step-2.svg" alt="" class="img-fluid" style="margin-top: 6px;">
+                        <div class="p-4">Подтвердите участие в Meetsup на следующей неделе</div>
+                    </div>
+                    <div class="col-lg-4 text-center" data-aos="zoom-in" data-aos-delay="100">
+                        <img src="/assets/img/step-3.svg" alt="" class="img-fluid">
+                        <div class="p-4" style="margin-top: -13px;">Алгоритм Meetsup подберет вам партнера для онлайн
+                            встречи
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section><!-- End Why Us Section -->
+
+        <section class="pb-5 pt-5">
+            <div class="container" data-aos="fade-up">
+                <div class="row">
+                    <div class="col-md-8">
+                        <h2 class="index-header mt-5 mb-5">
+                            Еженедельно участники Meetsup
+                            находят партнеров и новые полезные
+                            профессиональные связи
+                            для развития себя и своего дела
+                        </h2>
+                    </div>
+                    <div class="col-md-4">
+                        <img src="/assets/img/users.svg" alt="" class="img-fluid">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="review" class="bg-light pt-5 pb-5">
+            <div class="container" data-aos="fade-up">
+                <header class="section-header text-center mb-5">
+                    <h2 class="index-header">Отзывы участников Meetsup</h2>
+                </header>
+                <div class="row mb-2" data-aos="zoom-in" data-aos-delay="100">
+                    <div class="col-lg-6">
+                        <div class="row"
+                             style="background: url('{{ asset('assets/img/line1.svg') }}') center / 25% no-repeat;">
+                            <div class="col-5">
+                                <div class="review-image-cropper">
+                                    <div class="review-image-photo"
+                                         style="background-image: url('{{ asset('assets/img/review/118356222_655165828714280_623875041692971019_n.png') }}')">
+                                    </div>
+                                </div>
+                                <a href="https://www.linkedin.com/in/nfilippov/" target="_blank" class="r-ld"></a>
+                                <a href="https://www.facebook.com/profile.php?id=673892451" target="_blank"
+                                   class="r-fb"></a>
+                            </div>
+                            <div class="col-2"></div>
+                            <div class="col-5">
+                                <div class="review-image-cropper">
+                                    <div class="review-image-photo"
+                                         style="background-image: url('{{ asset('assets/img/review/20933838_1754887751206091_858443166830638200_o.png') }}')">
+                                    </div>
+                                </div>
+                                <a href="https://www.linkedin.com/in/posokin" target="_blank" class="r-ld"></a>
+                                <a href="https://www.facebook.com/pavel2d" target="_blank" class="r-fb"></a>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-5 text-center">
+                                <h4 class="index-header mb-1">Никита Филиппов</h4>
+                                <p>Co-founder ANNA Money</p>
+                            </div>
+                            <div class="col-2"></div>
+                            <div class="col-5 text-center">
+                                <h4 class="index-header mb-1">Павел Осокин</h4>
+                                <p>CEO AMAI</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 text-center pt-lg-4">
+                        <div class="bubble right-bubble">
+                            <div style="z-index: 11; position: relative;">
+                                Спасибо Meetsup, всегда интересные собеседники попадаются. И уже на третий созвон
+                                познакомились с Никитой Филипповым из ANNA MONEY и начали сотрудничество. 2&nbsp;месяца
+                                -
+                                полет нормальный.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-md-none mb-5 mt-5 pb-2"></div>
+                <div class="row mb-2" data-aos="zoom-in" data-aos-delay="100">
+                    <div class="col-lg-6 order-lg-2">
+                        <div class="row"
+                             style="background: url('{{ asset('assets/img/line2.svg') }}') center / 25% no-repeat;">
+                            <div class="col-5">
+                                <div class="review-image-cropper">
+                                    <div class="review-image-photo"
+                                         style="background-image: url('{{ asset('assets/img/review/Igor-2.jpg') }}')">
+                                    </div>
+                                </div>
+                                <a href="https://www.linkedin.com/in/igoralekhin/" target="_blank" class="r-ld"></a>
+                                <a href="https://www.facebook.com/ialekhin" target="_blank" class="r-fb"></a>
+                            </div>
+                            <div class="col-2"></div>
+                            <div class="col-5">
+                                <div class="review-image-cropper">
+                                    <div class="review-image-photo"
+                                         style="background-image: url('{{ asset('assets/img/review/phpQ9Z0nW-5f9fab0c42079.png') }}')">
+                                    </div>
+                                </div>
+                                <a href="https://www.linkedin.com/in/max-korneev-58369865/" target="_blank"
+                                   class="r-ld"></a>
+                                <a href="https://www.facebook.com/mkorneev" target="_blank" class="r-fb"></a>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-5 text-center">
+                                <h4 class="index-header mb-1">Игорь Алехин</h4>
+                                <p>CEO Iweekender</p>
+                            </div>
+                            <div class="col-2"></div>
+                            <div class="col-5 text-center">
+                                <h4 class="index-header mb-1">Максим Корнеев</h4>
+                                <p>CEO EWA: Learn Language/EWA Kids</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 text-center order-lg-1 pt-lg-5">
+                        <div class="bubble left-bubble">
+                            <div style="z-index: 11; position: relative;">
+                                Макса давно знаю и его успехи впечатляют, а благодаря Meetsup удалось познакомиться
+                                лично. Разговор был интересным и длинным, говорили о премудростях в стартапах и жизни в
+                                Сингапуре и Калифорнии. У нас оказалось много общих интересов и знакомых, обменялись
+                                контактами теперь будем общаться чаще.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-md-none mb-5 mt-5 pb-2"></div>
+                <div class="row" data-aos="zoom-in" data-aos-delay="100">
+                    <div class="col-lg-6">
+                        <div class="row"
+                             style="background: url('{{ asset('assets/img/line3.svg') }}') center / 25% no-repeat;">
+                            <div class="col-5">
+                                <div class="review-image-cropper">
+                                    <div class="review-image-photo"
+                                         style="background-image: url('{{ asset('assets/img/review/15095661_1034513586677109_695758087431103180_n.jpg') }}')">
+                                    </div>
+                                </div>
+                                <a href="https://www.linkedin.com/in/kirill-simakov-364a69190" target="_blank"
+                                   class="r-ld"></a>
+                                <a href="https://www.facebook.com/ms.kirill.simakov" target="_blank" class="r-fb"></a>
+                            </div>
+                            <div class="col-2"></div>
+                            <div class="col-5">
+                                <div class="review-image-cropper">
+                                    <div class="review-image-photo"
+                                         style="background-image: url('{{ asset('assets/img/review/picture-aYCGgM-5f833677a3ef5.jpeg') }}')">
+                                    </div>
+                                </div>
+                                <a href="https://www.linkedin.com/in/sergey-berezhnoy/" target="_blank"
+                                   class="r-ld"></a>
+                                <a href="https://www.facebook.com/sergey.berezhnoy.1610" target="_blank"
+                                   class="r-fb"></a>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-5 text-center">
+                                <h4 class="index-header mb-1">Кирилл Симаков</h4>
+                                <p>CEO Monosnap</p>
+                            </div>
+                            <div class="col-2"></div>
+                            <div class="col-5 text-center">
+                                <h4 class="index-header mb-1">Сергей Бережной</h4>
+                                <p>CEO InsightArc Analytics</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 text-center pt-lg-2">
+                        <div class="bubble right-bubble">
+                            <div style="z-index: 11; position: relative;">
+                                Путь IT-предпринимателя связан с постоянной неопределенностью. Чтобы не наступать на
+                                грабли
+                                чужих ошибок и свести к минимуму ненужные риски, крайне важно находиться в постоянном
+                                контакте с людьми, которые уже прошли твой путь. В Meetsup я встретил Кирилла, CEO
+                                Monosnap,
+                                который поделился практикой как на самом деле можно управлять ростом стартапа. Его
+                                советы
+                                очень помогли скорректировать подход к развитию моей компании.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="bg-dark pt-5 pb-5">
+            <div class="container" data-aos="fade-up">
+                <div class="row">
+                    <div class="col-md-8">
+                        <h2 class="mt-5">
+                            Meetsup помогает устанавливать новые
+                            полезные профессиональные связи.
+                            Попробуйте и вы.
+                        </h2>
+                        <div class="mt-5 mb-5 text-center text-md-left">
+                            <a href="/connect" class="btn btn-info btn-sign-in">Попробовать</a>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <img src="/assets/img/links2.svg" alt="" class="img-fluid">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main><!-- End #main -->
+{% endblock %}

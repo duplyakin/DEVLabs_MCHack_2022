@@ -1,0 +1,12 @@
+<div class="input-group custom-field">
+    <input type="text"
+           value="{{ field.value }}"
+           id="{{ field.uniqueId }}"
+           data-fieldname="{{ field.property }}"
+           data-baseurl="{{ ea_url().setAction('ajaxEditAction')|raw }}"
+           class="form-control custom-input"
+           placeholder="0.00">
+    <div class="input-group-append">
+        <button class="btn btn-info shadow-none" type="button"><i class="far fa-save"></i></button>
+    </div>
+</div>

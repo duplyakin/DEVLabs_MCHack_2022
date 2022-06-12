@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Login | Meetsup Community Networking</title>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <meta content="{% trans %}Online networking{% endtrans %}" name="descriptison">
+    <meta content="community,networking,meets,meet,meetup,meetsup" name="keywords">
+
+    <meta property="og:url" content="{{ app.request.uri }}"/>
+    <meta property="og:type" content="website"/>
+    <meta property="og:title" content="{% trans %}Meetsup - Online networking{% endtrans %}"/>
+    <meta property="og:description"
+          content="{% trans %}Online networking{% endtrans %}"
+          name="description"/>
+    <meta property="og:image"
+          content="https://www.meetsup.{{ app.request.getDefaultLocale() == 'en' ? 'io' : 'co' }}/assets/img/favicon2/fb.png"/>
+
+    <!-- Favicons -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/img/favicon2/apple-touch-icon.png?v=m2neAvdaow">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon2/favicon-32x32.png?v=m2neAvdaow">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicon2/favicon-16x16.png?v=m2neAvdaow">
+    <link rel="manifest" href="/assets/img/favicon2/site.webmanifest?v=m2neAvdaow">
+    <link rel="mask-icon" href="/assets/img/favicon2/safari-pinned-tab.svg?v=m2neAvdaow" color="#5bbad5">
+    <link rel="shortcut icon" href="/assets/img/favicon2/favicon.ico?v=m2neAvdaow">
+    <meta name="msapplication-TileColor" content="#2d89ef">
+    <meta name="msapplication-config" content="/assets/img/favicon2/browserconfig.xml?v=m2neAvdaow">
+    <meta name="theme-color" content="#ffffff">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Montserrat:300,400,500,600,700"
+          rel="stylesheet">
+
+    <!-- Vendor CSS Files -->
+    <link href="{{ asset('assets/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/vendor/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/vendor/ionicons/css/ionicons.min.css') }}" rel="stylesheet">
+
+    <!-- Template Main CSS File -->
+    <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet">
+
+    <style>
+        .abcRioButton {
+            -webkit-border-radius: 1px;
+            border-radius: 1px;
+            -webkit-box-shadow 0 2px 4px 0px rgba(0, 0, 0, .25);
+            box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .25);
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+            -webkit-transition: background-color .218s, border-color .218s, box-shadow .218s;
+            transition: background-color .218s, border-color .218s, box-shadow .218s;
+            -webkit-user-select: none;
+            -webkit-appearance: none;
+            background-color: #fff;
+            background-image: none;
+            color: #262626;
+            cursor: pointer;
+            outline: none;
+            overflow: hidden;
+            position: relative;
+            text-align: center;
+            vertical-align: middle;
+            white-space: nowrap;
+            width: auto
+        }
+
+        .abcRioButton:hover {
+            -webkit-box-shadow: 0 0 3px 3px rgba(66, 133, 244, .3);
+            box-shadow: 0 0 3px 3px rgba(66, 133, 244, .3)
+        }
+
+        .abcRioButtonBlue {
+            background-color: #4285f4;
+            border: none;
+            color: #fff
+        }
+
+        .abcRioButtonBlue:hover {
+            background-color: #4285f4
+        }
+
+        .abcRioButtonBlue:active {
+            background-color: #3367d6
+        }
+
+        .abcRioButtonLightBlue {
+            background-color: #fff;
+            color: #757575
+        }
+
+        .abcRioButtonLightBlue:active {
+            background-color: #eee;
+            color: #6d6d6d
+        }
+
+        .abcRioButtonIcon {
+            float: left
+        }
+
+        .abcRioButtonBlue .abcRioButtonIcon {
+            background-color: #fff;
+            -webkit-border-radius: 1px;
+            border-radius: 1px
+        }
+
+        .abcRioButtonSvg {
+            display: block
+        }
+
+        .abcRioButtonContents {
+            font-family: Roboto, arial, sans-serif;
+            font-size: 14px;
+            font-weight: 500;
+            letter-spacing: .21px;
+            margin-left: 6px;
+            margin-right: 6px;
+            vertical-align: top
+        }
+
+        .abcRioButtonContentWrapper {
+            height: 100%;
+            width: 100%
+        }
+
+        .abcRioButtonBlue .abcRioButtonContentWrapper {
+            border: 1px solid transparent
+        }
+
+        .abcRioButtonErrorWrapper, .abcRioButtonWorkingWrapper {
+            display: none;
+            height: 100%;
+            width: 100%
+        }
+
+        .abcRioButtonErrorIcon, .abcRioButtonWorkingIcon {
+            margin-left: auto;
+            margin-right: auto
+        }
+
+        .abcRioButtonErrorState, .abcRioButtonWorkingState {
+            border: 1px solid #d5d5d5;
+            border: 1px solid rgba(0, 0, 0, .17);
+            -webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, .05);
+            box-shadow: 0 1px 0 rgba(0, 0, 0, .05);
+            color: #262626
+        }
+
+        .abcRioButtonErrorState:hover, .abcRioButtonWorkingState:hover {
+            border: 1px solid #aaa;
+            border: 1px solid rgba(0, 0, 0, .25);
+            -webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, .1);
+            box-shadow: 0 1px 0 rgba(0, 0, 0, .1)
+        }
+
+        .abcRioButtonErrorState:active, .abcRioButtonWorkingState:active {
+            border: 1px solid #aaa;
+            border: 1px solid rgba(0, 0, 0, .25);
+            -webkit-box-shadow: inset 0 1px 0 #ddd;
+            box-shadow: inset 0 1px 0 #ddd;
+            color: #262626
+        }
+
+        .abcRioButtonWorkingState, .abcRioButtonWorkingState:hover {
+            background-color: #f5f5f5
+        }
+
+        .abcRioButtonWorkingState:active {
+            background-color: #e5e5e5
+        }
+
+        .abcRioButtonErrorState, .abcRioButtonErrorState:hover {
+            background-color: #fff
+        }
+
+        .abcRioButtonErrorState:active {
+            background-color: #e5e5e5
+        }
+
+        .abcRioButtonWorkingState .abcRioButtonWorkingWrapper, .abcRioButtonErrorState .abcRioButtonErrorWrapper {
+            display: block
+        }
+
+        .abcRioButtonErrorState .abcRioButtonContentWrapper, .abcRioButtonWorkingState .abcRioButtonContentWrapper, .abcRioButtonErrorState .abcRioButtonWorkingWrapper {
+            display: none
+        }
+    </style>
+
+    <!-- Yandex.Metrika counter -->
+    <script type="text/javascript">
+        (function (m, e, t, r, i, k, a) {
+            m[i] = m[i] || function () {
+                (m[i].a = m[i].a || []).push(arguments)
+            };
+            m[i].l = 1 * new Date();
+            k = e.createElement(t), a = e.getElementsByTagName(t)[0], k.async = 1, k.src = r, a.parentNode.insertBefore(k, a)
+        })
+        (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+        ym(68638720, "init", {
+            clickmap: true,
+            trackLinks: true,
+            accurateTrackBounce: true,
+            webvisor: true
+        });
+    </script>
+    <noscript>
+        <div><img src="https://mc.yandex.ru/watch/68638720" style="position:absolute; left:-9999px;" alt=""/></div>
+    </noscript>
+    <!-- /Yandex.Metrika counter -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+</head>
+<body style="background-color:#f2f2f2; height:100vh;">
+
+{% if app.user is null %}
+    <div class="container position-relative">
+        <div id="g_id_onload"
+             data-client_id="924096504584-cihmcra05see5icdkgapn3pkffss5q8l.apps.googleusercontent.com"
+             data-prompt_parent_id="g_id_onload"
+             style="position: fixed; top: 60px; right: 30px; z-index: 1001;"
+             data-context="use"
+             data-login_uri="{{ url('onetap_google_check') }}">
+        </div>
+    </div>
+{% endif %}
+
+<div class="container h-100 d-flex justify-content-center align-items-center">
+    <div class="my-auto">
+        <h1 class="logo mr-auto text-center">
+            <a href="/"
+               style='letter-spacing: 3px; color: #514F7E; font-weight: 700; font-family: "Gilroy-Bold", "Montserrat", sans-serif'>
+                <img src="{{ asset('assets/img/logo.svg') }}">
+                MEET<span style="color: #1bb1dc">S</span>UP
+            </a>
+        </h1>
+        <div class="text-center">
+            <div>
+                {% trans %}Login with{% endtrans %}:
+            </div>
+            <div id="google-button" class="pt-4">
+                <a href="/connect/google">
+                    <div style="height:50px;width:240px; margin: 0 auto;" class="abcRioButton abcRioButtonBlue">
+                        <div class="abcRioButtonContentWrapper">
+                            <div class="abcRioButtonIcon" style="padding:15px">
+                                <div style="width:18px;height:18px;"
+                                     class="abcRioButtonSvgImageWithFallback abcRioButtonIconImage abcRioButtonIconImage18">
+                                    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="18px"
+                                         height="18px"
+                                         viewBox="0 0 48 48" class="abcRioButtonSvg">
+                                        <g>
+                                            <path fill="#EA4335"
+                                                  d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"></path>
+                                            <path fill="#4285F4"
+                                                  d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"></path>
+                                            <path fill="#FBBC05"
+                                                  d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"></path>
+                                            <path fill="#34A853"
+                                                  d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"></path>
+                                            <path fill="none" d="M0 0h48v48H0z"></path>
+                                        </g>
+                                    </svg>
+                                </div>
+                            </div>
+                            <span style="font-size:16px;line-height:48px;" class="abcRioButtonContents"><span
+                                        id="not_signed_inqzgcjlggp5ee">Sign in with Google</span><span
+                                        id="connectedqzgcjlggp5ee"
+                                        style="display:none">Signed in with Google</span></span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            {% if app.request.getDefaultLocale() == 'ru' %}
+                <div class="pt-4">
+                    <script async src="https://telegram.org/js/telegram-widget.js?14"
+                            data-telegram-login="{{ tg_bot_name }}"
+                            data-size="large" data-userpic="false" data-min-width="240" data-radius="0"
+                            data-auth-url="{{ url('_telegram_login') }}"
+                            data-request-access="write"></script>
+                </div>
+            {% endif %}
+            {% if app.request.getDefaultLocale() == 'en' %}
+                <div class="pt-4 pb-2">Or login with email:</div>
+                <div>
+                    <form method="post">
+                        {% if error %}
+                            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                        {% endif %}
+
+                        <input type="email" placeholder="E-mail" value="{{ last_username }}" name="email"
+                               class="form-control" required autofocus>
+                        <input type="password" placeholder="Password" name="password" class="form-control mt-2"
+                               required>
+
+                        <input type="hidden" name="_csrf_token"
+                               value="{{ csrf_token('authenticate') }}"
+                        >
+
+                        {#
+                            Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
+                            See https://symfony.com/doc/current/security/remember_me.html
+
+                            <div class="checkbox mb-3">
+                                <label>
+                                    <input type="checkbox" name="_remember_me"> Remember me
+                                </label>
+                            </div>
+                        #}
+                        {#<a href="#" class="pull-right"><small>Forgot your password?</small></a>#}
+                        <button class="btn btn-primary w-100 mt-4" type="submit">
+                            Sign in
+                        </button>
+                        <p class="mt-3">
+                            Don't have an account yet? <a href="{{ path('app_register') }}">Register now</a>
+                        </p>
+                    </form>
+                </div>
+            {% endif %}
+            {#<a href="/connect/facebook" class="btn-face d-none btn-google m-b-20">#}
+            {#<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 13" data-supported-dps="150x20" width="150" height="20" focusable="false">#}
+            {#<g class="inbug" fill="none" fill-rule="evenodd">#}
+            {#<path d="M54.7 0H42.77c-.57 0-1.056.451-1.056 1.008v11.986c0 .556.485 1.008 1.056 1.008H54.7c.571 0 1.014-.452 1.014-1.008V1.008C55.715.45 55.272 0 54.7 0" class="bug-text-color" fill="#FFF"></path>#}
+            {#<path d="M54.7 0H42.77c-.57 0-1.056.451-1.056 1.008v11.986c0 .556.485 1.008 1.056 1.008H54.7c.571 0 1.014-.452 1.014-1.008V1.008C55.715.45 55.272 0 54.7 0zm-7.445 5.25h1.896v.953c.274-.548.974-1.04 2.026-1.04 2.017 0 2.496 1.09 2.496 3.091v3.706H51.63V8.71c0-1.14-.273-1.782-.969-1.782-.964 0-1.365.693-1.365 1.782v3.25h-2.042V5.25zm-3.5 6.71h2.042V5.25h-2.042v6.71zm2.334-8.897a1.313 1.313 0 11-2.626 0 1.313 1.313 0 012.626 0z" class="background" fill="#0073B0"></path>#}
+            {#</g>#}
+            {#<g class="linkedin-text">#}
+            {#<path d="M39.671 11.96h-1.75v-1.021c-.319.485-1.246 1.108-2.188 1.108-1.993 0-3.296-1.261-3.296-3.296 0-1.869 1.094-3.588 3.005-3.588.857 0 1.717.167 2.187.817V2.042h2.042v9.918zm-3.719-4.988c-1.038 0-1.56.623-1.56 1.633s.522 1.663 1.56 1.663 1.706-.652 1.706-1.663c0-1.01-.668-1.633-1.706-1.633zM31.504 10.83c-.665.844-1.997 1.217-3.282 1.217-2.076 0-3.37-1.443-3.37-3.588s1.547-3.296 3.662-3.296c1.75 0 3.223 1.23 3.223 3.588 0 .365-.058.583-.058.583h-4.843l.033.196c.116.642.805.971 1.608.971.678 0 1.186-.295 1.532-.766l1.495 1.094zM29.68 7.875c.014-.692-.542-1.254-1.29-1.254-.913 0-1.498.603-1.554 1.254h2.844z"></path>#}
+            {#<path d="M18.377 2.042h2.042v5.834l2.334-2.625h2.552l-2.844 3.062 2.735 3.647h-2.443L20.419 8.75v3.209h-2.042zM10.793 5.25h1.75v.985c.276-.526 1.178-1.072 2.188-1.072 2.104 0 2.48 1.242 2.48 3.041v3.756h-2.043V8.642c0-.775.045-1.7-1.02-1.7-1.08 0-1.313.828-1.313 1.7v3.318h-2.042V5.25zM8.605 1.787c.675 0 1.276.602 1.276 1.276S9.28 4.339 8.605 4.339c-.674 0-1.276-.602-1.276-1.276s.602-1.276 1.276-1.276zM7.585 11.96h2.041V5.25H7.584v6.71zM0 2.042h2.042v7.876h4.375v2.042H0z"></path>#}
+            {#</g>#}
+            {#</svg>#}
+            {#</a>#}
+        </div>
+    </div>
+</div>
+</body>
+</html>

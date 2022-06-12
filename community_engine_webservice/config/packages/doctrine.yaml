@@ -1,0 +1,67 @@
+doctrine:
+    dbal:
+        url: '%env(resolve:DATABASE_URL)%'
+
+        # IMPORTANT: You MUST configure your server version,
+        # either here or in the DATABASE_URL env var (see .env file)
+        #server_version: '5.7'
+    orm:
+        auto_generate_proxy_classes: true
+        naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
+        auto_mapping: true
+        hydrators:
+            CommunityUserListHydrator: App\Doctrine\Hydrator\CommunityUserListHydrator
+        mappings:
+            App:
+                is_bundle: false
+                type: annotation
+                dir: '%kernel.project_dir%/src/Entity'
+                prefix: 'App\Entity'
+                alias: App
+        dql:
+            datetime_functions:
+                date:           Oro\ORM\Query\AST\Functions\SimpleFunction
+                time:           Oro\ORM\Query\AST\Functions\SimpleFunction
+                timestamp:      Oro\ORM\Query\AST\Functions\SimpleFunction
+                convert_tz:     Oro\ORM\Query\AST\Functions\DateTime\ConvertTz
+            numeric_functions:
+                timestampdiff:  Oro\ORM\Query\AST\Functions\Numeric\TimestampDiff
+                dayofyear:      Oro\ORM\Query\AST\Functions\SimpleFunction
+                dayofmonth:     Oro\ORM\Query\AST\Functions\SimpleFunction
+                dayofweek:      Oro\ORM\Query\AST\Functions\SimpleFunction
+                week:           Oro\ORM\Query\AST\Functions\SimpleFunction
+                day:            Oro\ORM\Query\AST\Functions\SimpleFunction
+                hour:           Oro\ORM\Query\AST\Functions\SimpleFunction
+                minute:         Oro\ORM\Query\AST\Functions\SimpleFunction
+                month:          Oro\ORM\Query\AST\Functions\SimpleFunction
+                quarter:        Oro\ORM\Query\AST\Functions\SimpleFunction
+                second:         Oro\ORM\Query\AST\Functions\SimpleFunction
+                year:           Oro\ORM\Query\AST\Functions\SimpleFunction
+                sign:           Oro\ORM\Query\AST\Functions\Numeric\Sign
+                pow:            Oro\ORM\Query\AST\Functions\Numeric\Pow
+                round:          Oro\ORM\Query\AST\Functions\Numeric\Round
+                ceil:           Oro\ORM\Query\AST\Functions\SimpleFunction
+            string_functions:
+                to_tsvector:      Oro\ORM\Query\AST\Functions\SimpleFunction
+                to_tsquery:       Oro\ORM\Query\AST\Functions\SimpleFunction
+                ts_rank:          App\Doctrine\DBAL\TsRankFunction
+                phraseto_tsquery: Oro\ORM\Query\AST\Functions\SimpleFunction
+
+                md5:              Oro\ORM\Query\AST\Functions\SimpleFunction
+                group_concat:     Oro\ORM\Query\AST\Functions\String\GroupConcat
+                concat_ws:        Oro\ORM\Query\AST\Functions\String\ConcatWs
+                cast:             Oro\ORM\Query\AST\Functions\Cast
+                replace:          Oro\ORM\Query\AST\Functions\String\Replace
+                date_format:      Oro\ORM\Query\AST\Functions\String\DateFormat
+                FIRST:            App\Doctrine\DBAL\FirstFunction
+                FIRST_VALUE:      App\Doctrine\DBAL\FirstValueFunction
+#        dql:
+#            datetime_functions:
+#                now: DoctrineExtensions\Query\Mysql\Now
+#                week: DoctrineExtensions\Query\Mysql\Week
+#                year: DoctrineExtensions\Query\Mysql\Year
+#                date: DoctrineExtensions\Query\Mysql\Date
+#            string_functions:
+#                FIRST: App\Doctrine\DBAL\FirstFunction
+#                GROUP_CONCAT: DoctrineExtensions\Query\Mysql\GroupConcat
+#                IFNULL: DoctrineExtensions\Query\Mysql\IfNull

@@ -1,0 +1,221 @@
+<table class="table">
+    <thead class="thead-dark">
+    <tr>
+        <th scope="col" style="min-width: 145px;">Direct</th>
+        {#<th scope="col" style="min-width: 145px;">Balance</th>#}
+        <th scope="col" style="min-width: 90px;"></th>
+        <th scope="col" style="min-width: 225px;">Name</th>
+        <th scope="col" style="min-width: 225px;">About</th>
+        <th scope="col" style="min-width: 225px;">Looking for</th>
+        {% for field in fields %}
+            <th scope="col" style="min-width: 145px;">{{ field.getLabel() }}</th>
+        {% endfor %}
+        <th scope="col" style="min-width: 70px;">Rate</th>
+        {% for question in questions %}
+            <th scope="col" style="min-width: 82px;">{{ question.getDeclarativeTitle() }}</th>
+        {% endfor %}
+    </tr>
+    </thead>
+    <tbody>
+    {% for order in orders %}
+        {% set user = order.getUser() %}
+        <tr>
+            <td rowspan="2" style="border-bottom: 2px solid black">
+                <div class="input-group">
+                    <a
+                            href="{{ ea_url({
+                                metricOrder: order.getId(),
+                                community: community.getId()
+                            })
+                            .setController('App\\Controller\\Admin\\MetricController')
+                            .setAction('deleteOrder') }}"
+
+                            class="btn btn-danger shadow-none button-input-order-metric-del"
+                    >
+                        <i class="fa fa-trash"></i>
+                    </a>
+                </div>
+            </td>
+            <td>
+                <img style="max-width: 50px" src="{{ user.getPictureUrl }}" border="0"/>
+            </td>
+            <td>
+                <a href="{{ ea_url()
+                .setController('App\\Controller\\Admin\\UserCrudController')
+                .setAction('edit')
+                .setEntityId(user.getId()) }}" target="_blank">
+                    {{ user.getFullName() }}[ID:{{ user.getId() }}]
+                </a>
+                <br/>[tg={{ user.getTelegramId() }}]
+                <div style="font-size: 18px;">
+                    {% if user.getFacebookLink() %}
+                        <a href="{{ user.getFacebookLink()|e }}" target="_blank">
+                            <i class="m-1 fab fa-facebook-square"></i>
+                        </a>
+                    {% endif %}
+                    {% if user.getLinkedinLink() %}
+                        <a href="{{ user.getLinkedinLink()|e }}" target="_blank">
+                            <i class="ml-1 fab fa-linkedin"></i>
+                        </a>
+                    {% endif %}
+                    {% if user.getUserConnects() %}
+                        <a href="javascript:;" data-toggle="tooltip" data-placement="bottom"
+                           title="{{ user.getUserConnects()|join(', ') }}">
+                            <i class="ml-1 fas fa-phone"></i>
+                        </a>
+                    {% endif %}
+                </div>
+            </td>
+            <td>
+                {% if user.getAbout() %}
+                    {{ user.getAbout() }}
+                {% else %}
+                    none
+                {% endif %}
+            </td>
+            <td>
+                {% if user.getSettingsByCommunity(community).getLookingFor() %}
+                    {{ user.getSettingsByCommunity(community).getLookingFor() }}
+                {% else %}
+                    none
+                {% endif %}
+            </td>
+            {% for field in fields %}
+                {% if field.getType() == constant('App\\Entity\\UserMetricField::TYPE_BOOLEAN') %}
+                    <td>
+                        <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                            <label class="btn btn-outline-primary">
+                                <input {{ user.getFirstMetricValueByField(field) ? 'checked' : '' }}
+                                        data-user="{{ user.getId }}"
+                                        data-field="{{ field.getId() }}"
+                                        class="button-metric"
+                                        type="checkbox"
+                                        autocomplete="off"> {{ field.getLabel() }}
+                            </label>
+                        </div>
+                    </td>
+                {% endif %}
+                {% if field.getType() == constant('App\\Entity\\UserMetricField::TYPE_FLOAT') %}
+                    <td>
+                        <div class="input-group custom-field">
+                            <input type="text"
+                                   value="{{ user.getFirstMetricValueByField(field) ?? '' }}"
+                                   style="max-width: 60px"
+                                   class="form-control custom-input"
+                                   data-user="{{ user.getId }}"
+                                   data-field="{{ field.getId() }}"
+                                   placeholder="0.00">
+                            <div class="input-group-append">
+                                <button class="btn btn-info shadow-none button-input-metric" type="button"><i
+                                            class="far fa-save"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </td>
+                {% endif %}
+            {% endfor %}
+            <td class="text-center">not available</td>
+            {% for question in questions %}
+                <td>
+                    {% for answer in user.answers %}
+                        {% if question.id == answer.question.id %}
+                            <span class="badge badge-{{ answer.getId() in user.getIntersectAnswers() ? 'danger' : 'secondary' }} m-0">{{ answer.title }}</span>
+                        {% endif %}
+                    {% endfor %}
+                </td>
+            {% endfor %}
+        </tr>
+        {% set user = order.getWithUser() %}
+        <tr style="border-bottom: 2px solid black">
+            <td>
+                <img style="max-width: 50px" src="{{ user.getPictureUrl }}" border="0"/>
+            </td>
+            <td>
+                <a href="{{ ea_url()
+                .setController('App\\Controller\\Admin\\UserCrudController')
+                .setAction('edit')
+                .setEntityId(user.getId()) }}" target="_blank">
+                    {{ user.getFullName() }}[ID:{{ user.getId() }}]
+                </a>
+                <br/>[tg={{ user.getTelegramId() }}]
+                <div style="font-size: 18px;">
+                    {% if user.getFacebookLink() %}
+                        <a href="{{ user.getFacebookLink()|e }}" target="_blank">
+                            <i class="m-1 fab fa-facebook-square"></i>
+                        </a>
+                    {% endif %}
+                    {% if user.getLinkedinLink() %}
+                        <a href="{{ user.getLinkedinLink()|e }}" target="_blank">
+                            <i class="ml-1 fab fa-linkedin"></i>
+                        </a>
+                    {% endif %}
+                    {% if user.getUserConnects() %}
+                        <a href="javascript:;" data-toggle="tooltip" data-placement="bottom"
+                           title="{{ user.getUserConnects()|join(', ') }}">
+                            <i class="ml-1 fas fa-phone"></i>
+                        </a>
+                    {% endif %}
+                </div>
+            </td>
+            <td>
+                {% if user.getAbout() %}
+                    {{ user.getAbout() }}
+                {% else %}
+                    none
+                {% endif %}
+            </td>
+            <td>
+                {% if user.getUserCommunitySettings().first() %}
+                    {{ user.getUserCommunitySettings().first().getLookingFor()|striptags("<u>")|raw }}
+                {% else %}
+                    none
+                {% endif %}
+            </td>
+            {% for field in fields %}
+                {% if field.getType() == constant('App\\Entity\\UserMetricField::TYPE_BOOLEAN') %}
+                    <td>
+                        <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                            <label class="btn btn-outline-primary">
+                                <input {{ user.getFirstMetricValueByField(field) ? 'checked' : '' }}
+                                        data-user="{{ user.getId }}"
+                                        data-field="{{ field.getId() }}"
+                                        class="button-metric"
+                                        type="checkbox"
+                                        autocomplete="off"> {{ field.getLabel() }}
+                            </label>
+                        </div>
+                    </td>
+                {% endif %}
+                {% if field.getType() == constant('App\\Entity\\UserMetricField::TYPE_FLOAT') %}
+                    <td>
+                        <div class="input-group custom-field">
+                            <input type="text"
+                                   value="{{ user.getFirstMetricValueByField(field) ?? '' }}"
+                                   style="max-width: 60px"
+                                   class="form-control custom-input"
+                                   data-user="{{ user.getId }}"
+                                   data-field="{{ field.getId() }}"
+                                   placeholder="0.00">
+                            <div class="input-group-append">
+                                <button class="btn btn-info shadow-none button-input-metric" type="button"><i
+                                            class="far fa-save"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </td>
+                {% endif %}
+            {% endfor %}
+            <td class="text-center">not available</td>
+            {% for question in questions %}
+                <td>
+                    {% for answer in user.answers %}
+                        {% if question.id == answer.question.id %}
+                            <span class="badge badge-{{ answer.getId() in user.getIntersectAnswers() ? 'danger' : 'secondary' }} m-0">{{ answer.title }}</span>
+                        {% endif %}
+                    {% endfor %}
+                </td>
+            {% endfor %}
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>

@@ -1,0 +1,52 @@
+<div class="board-item" data-id="{{ user.id }}">
+    <div class="board-item-content">
+        {% if user.getPicture %}
+            <div class="image-cropper">
+                <img src="{{ user.getPictureUrl }}" border="0"/>
+            </div>
+        {% endif %}
+        <div class="info">
+            <span>{{ user.firstName|e }}</span>
+            <span>{{ user.lastName|e }}</span>
+            <br/>
+            <span>{{ user.getActualEmail()|e }}</span>
+        </div>
+        <div class="clearfix"></div>
+        <div class="answers">
+            <div>Call dates: <br />{{ user.getCallDates().toArray()|join('<br/>')|raw }}</div>
+            <div><b>О себе:</b> {{ user.about|e }}</div>
+            <div><b>Пожелания:</b> {{ user.lookingFor|e }}</div>
+            {% for question in questions %}
+                <b>{{ question }}</b>:
+                {% if question.multiple %}
+                    <br/>
+                {% endif %}
+                {% for answer in user.answers %}
+                    {% if question.id == answer.question.id %}
+                        {% if question.multiple %}-{% endif %}
+                        <a
+                                class="to-open"
+                                data-type="answer"
+                                href="javascript:void(0);"
+                                data-answer-id="{{ answer.id }}"
+                                data-user-id="{{ user.id }}"
+                        >{{ answer.title }}</a>
+                        {% if loop.last == false and question.multiple %}<br/>{% endif %}
+                    {% endif %}
+                {% endfor %}
+                {% if loop.last == false %}<br/>{% endif %}
+            {% endfor %}
+        </div>
+        <div class="social">
+            {% if user.facebookLink %}
+                <i data-type="panel" data-url="{{ user.facebookLink|e }}" title="Facebook"
+                   class="fab fa-facebook to-open"></i>
+            {% endif %}
+            {% if user.telegramUsername %}
+                <i data-url="tg://resolve?domain={{ user.telegramUsername|e }}" title="Telegram"
+                   class="fab fa-telegram to-open"></i>
+            {% endif %}
+        </div>
+    </div>
+    <div class="clearfix"></div>
+</div>

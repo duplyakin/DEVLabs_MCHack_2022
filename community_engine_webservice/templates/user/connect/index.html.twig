@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Meets'up Community Networking{% endblock %}
+
+{% block body %}
+<main id="main">
+    <!-- ======= Breadcrumbs ======= -->
+    <section id="breadcrumbs" class="breadcrumbs">
+        <div class="container">
+
+            <ol>
+                <li><a href="/">Главная</a></li>
+                <li>Коннект</li>
+            </ol>
+        </div>
+    </section><!-- End Breadcrumbs -->
+    <section class="inner-page pt-4">
+        <div class="container">
+            <div id="otEmbedContainer" style="width:800px; height:640px"></div>
+        </div>
+    </section>
+</main>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="https://tokbox.com/embed/embed/ot-embed.js?embedId=428d9f08-aad6-47fd-9bb1-f85d0c36639c&room={{ call_uuid }}"></script>
+{% endblock %}

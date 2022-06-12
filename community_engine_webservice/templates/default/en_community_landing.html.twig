@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>{{ community.getTitle() }} | Meetsup Community Networking</title>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <meta content="Matching platform for communities"
+          name="description">
+    <meta content="community,networking,meets,meet,meetup,meetsup" name="keywords">
+
+    <meta property="og:url" content="{{ app.request.uri }}"/>
+    <meta property="og:type" content="website"/>
+    <meta property="og:title" content="{{ community.getTitle() }} | Meetsup Community Networking"/>
+    <meta property="og:description" content="{{ community.getShortDescription()|striptags|escape }}"
+          name="description"/>
+    <meta property="og:image" content="https://www.meetsup.co/assets/img/favicon2/fb.png"/>
+
+    {#<meta name="google-signin-client_id" content="YOUR_CLIENT_ID.apps.googleusercontent.com">#}
+
+    <!-- Favicons -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/img/favicon2/apple-touch-icon.png?v=m2neAvdaow">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon2/favicon-32x32.png?v=m2neAvdaow">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicon2/favicon-16x16.png?v=m2neAvdaow">
+    <link rel="manifest" href="/assets/img/favicon2/site.webmanifest?v=m2neAvdaow">
+    <link rel="mask-icon" href="/assets/img/favicon2/safari-pinned-tab.svg?v=m2neAvdaow" color="#5bbad5">
+    <link rel="shortcut icon" href="/assets/img/favicon2/favicon.ico?v=m2neAvdaow">
+    <meta name="msapplication-TileColor" content="#2d89ef">
+    <meta name="msapplication-config" content="/assets/img/favicon2/browserconfig.xml?v=m2neAvdaow">
+    <meta name="theme-color" content="#ffffff">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Montserrat:300,400,500,600,700"
+          rel="stylesheet">
+
+    <!-- Vendor CSS Files -->
+    <link href="{{ asset('assets/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/vendor/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/vendor/ionicons/css/ionicons.min.css') }}" rel="stylesheet">
+
+    <!-- Template Main CSS File -->
+    <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet">
+
+    <style>
+        .abcRioButton {
+            -webkit-border-radius: 1px;
+            border-radius: 1px;
+            -webkit-box-shadow: 0 2px 4px 0px rgba(0, 0, 0, .25);
+            box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .25);
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+            -webkit-transition: background-color .218s, border-color .218s, box-shadow .218s;
+            transition: background-color .218s, border-color .218s, box-shadow .218s;
+            -webkit-user-select: none;
+            -webkit-appearance: none;
+            background-color: #fff;
+            background-image: none;
+            color: #262626;
+            cursor: pointer;
+            outline: none;
+            overflow: hidden;
+            position: relative;
+            text-align: center;
+            vertical-align: middle;
+            white-space: nowrap;
+            width: auto
+        }
+
+        .abcRioButton:hover {
+            -webkit-box-shadow: 0 0 3px 3px rgba(66, 133, 244, .3);
+            box-shadow: 0 0 3px 3px rgba(66, 133, 244, .3)
+        }
+
+        .abcRioButtonBlue {
+            background-color: #4285f4;
+            border: none;
+            color: #fff
+        }
+
+        .abcRioButtonBlue:hover {
+            background-color: #4285f4
+        }
+
+        .abcRioButtonBlue:active {
+            background-color: #3367d6
+        }
+
+        .abcRioButtonLightBlue {
+            background-color: #fff;
+            color: #757575
+        }
+
+        .abcRioButtonLightBlue:active {
+            background-color: #eee;
+            color: #6d6d6d
+        }
+
+        .abcRioButtonIcon {
+            float: left
+        }
+
+        .abcRioButtonBlue .abcRioButtonIcon {
+            background-color: #fff;
+            -webkit-border-radius: 1px;
+            border-radius: 1px
+        }
+
+        .abcRioButtonSvg {
+            display: block
+        }
+
+        .abcRioButtonContents {
+            font-family: Roboto, arial, sans-serif;
+            font-size: 14px;
+            font-weight: 500;
+            letter-spacing: .21px;
+            margin-left: 6px;
+            margin-right: 6px;
+            vertical-align: top
+        }
+
+        .abcRioButtonContentWrapper {
+            height: 100%;
+            width: 100%
+        }
+
+        .abcRioButtonBlue .abcRioButtonContentWrapper {
+            border: 1px solid transparent
+        }
+
+        .abcRioButtonErrorWrapper, .abcRioButtonWorkingWrapper {
+            display: none;
+            height: 100%;
+            width: 100%
+        }
+
+        .abcRioButtonErrorIcon, .abcRioButtonWorkingIcon {
+            margin-left: auto;
+            margin-right: auto
+        }
+
+        .abcRioButtonErrorState, .abcRioButtonWorkingState {
+            border: 1px solid #d5d5d5;
+            border: 1px solid rgba(0, 0, 0, .17);
+            -webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, .05);
+            box-shadow: 0 1px 0 rgba(0, 0, 0, .05);
+            color: #262626
+        }
+
+        .abcRioButtonErrorState:hover, .abcRioButtonWorkingState:hover {
+            border: 1px solid #aaa;
+            border: 1px solid rgba(0, 0, 0, .25);
+            -webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, .1);
+            box-shadow: 0 1px 0 rgba(0, 0, 0, .1)
+        }
+
+        .abcRioButtonErrorState:active, .abcRioButtonWorkingState:active {
+            border: 1px solid #aaa;
+            border: 1px solid rgba(0, 0, 0, .25);
+            -webkit-box-shadow: inset 0 1px 0 #ddd;
+            box-shadow: inset 0 1px 0 #ddd;
+            color: #262626
+        }
+
+        .abcRioButtonWorkingState, .abcRioButtonWorkingState:hover {
+            background-color: #f5f5f5
+        }
+
+        .abcRioButtonWorkingState:active {
+            background-color: #e5e5e5
+        }
+
+        .abcRioButtonErrorState, .abcRioButtonErrorState:hover {
+            background-color: #fff
+        }
+
+        .abcRioButtonErrorState:active {
+            background-color: #e5e5e5
+        }
+
+        .abcRioButtonWorkingState .abcRioButtonWorkingWrapper, .abcRioButtonErrorState .abcRioButtonErrorWrapper {
+            display: block
+        }
+
+        .abcRioButtonErrorState .abcRioButtonContentWrapper, .abcRioButtonWorkingState .abcRioButtonContentWrapper, .abcRioButtonErrorState .abcRioButtonWorkingWrapper {
+            display: none
+        }
+
+        .button-try {
+            font-family: "Montserrat", sans-serif;
+            font-size: 17px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: inline-block;
+            padding: 10px 32px !important;
+            border-radius: 4px;
+            transition: 0.5s;
+            color: #fff !important;
+            background: #1bb1dc;
+        }
+    </style>
+
+    <!-- Yandex.Metrika counter -->
+    <script type="text/javascript">
+        (function (m, e, t, r, i, k, a) {
+            m[i] = m[i] || function () {
+                (m[i].a = m[i].a || []).push(arguments)
+            };
+            m[i].l = 1 * new Date();
+            k = e.createElement(t), a = e.getElementsByTagName(t)[0], k.async = 1, k.src = r, a.parentNode.insertBefore(k, a)
+        })
+        (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+        ym(68638720, "init", {
+            clickmap: true,
+            trackLinks: true,
+            accurateTrackBounce: true,
+            webvisor: true
+        });
+    </script>
+    <noscript>
+        <div><img src="https://mc.yandex.ru/watch/68638720" style="position:absolute; left:-9999px;" alt=""/></div>
+    </noscript>
+    <!-- /Yandex.Metrika counter -->
+</head>
+<body style="background-color:#f2f2f2;">
+<div class="container h-100">
+    <div class="my-auto w-100">
+        <div class="row">
+            <div class="col-md-12 ml-md-1 mt-3">
+                <img src="{{ community.getLogoUrl() }}" width="220px"/>
+            </div>
+        </div>
+        <div class="row mt-md-5">
+            <div class="container h-100">
+                <div class="row aos-init aos-animate" data-aos="fade-up">
+                    <div class="col-md-6 pt-4 intro-info order-md-first order-last aos-init aos-animate"
+                         data-aos="zoom-in"
+                         data-aos-delay="100">
+                        <h2 class="index-header" style="font-weight: normal;">
+                            Fill out the form to start networking with members of the {{ community.getTitle() }}
+                            community
+                        </h2>
+                        <div class="mt-2">
+                            Meetsup will find in the community the most relevant contact to your interests and requests
+                            and send you via email an offer to hold a 1:1 online meeting.
+                        </div>
+                        <div class="mt-5 text-center">
+                            <a href="{{ url('app_login', {'community': community.getUrl() }) }}"
+                               style="background: #1BB1DC; border-color: #1BB1DC;"
+                               class="btn btn-lg btn-primary button-try">GO</a>
+                        </div>
+                        <div class="mt-5 text-center">
+                            <a href="https://www.meetsup.io/communities" target="_blank">
+                                <div style="font-weight: 700; color: #1BB1DC; font-size: 12px; font-family: 'Gilroy-Bold', 'Montserrat', sans-serif;">
+                                    POWERED BY
+                                </div>
+                                <h1 class="logo mr-auto">
+                                    <span
+                                            style='letter-spacing: 3px; color: #514F7E; font-weight: 700; font-family: "Gilroy-Bold", "Montserrat", sans-serif'>
+                                        <img style="margin-top: -6px" src="{{ asset('assets/img/logo.svg') }}">
+                                        MEET<span style="color: #1bb1dc">S</span>UP
+                                    </span>
+                                </h1>
+                                <div style="text-transform: uppercase; font-weight: 700; margin-top: -15px; color: #1BB1DC; font-size: 12px; font-family: 'Gilroy-Bold', 'Montserrat', sans-serif;">
+                                    Matching platform for communities
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 intro-img order-md-last order-first aos-init aos-animate"
+                         data-aos="zoom-out"
+                         data-aos-delay="200" style="background: url(/assets/img/top-index.svg) center no-repeat;">
+                        {#<img src="/assets/img/top-index.svg" alt="" class="img-fluid">#}
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-md-12 text-center">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

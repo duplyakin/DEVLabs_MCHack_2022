@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <title>{% block title %}Meetsup Community Networking{% endblock %}</title>
+    <meta content="{% trans %}Online networking{% endtrans %}" name="descriptison">
+    <meta content="community,networking,meets,meet,meetup,meetsup" name="keywords">
+
+    <meta property="og:url" content="{{ app.request.uri }}"/>
+    <meta property="og:type" content="website"/>
+    <meta property="og:title" content="{% trans %}Meetsup - Online networking{% endtrans %}"/>
+    <meta property="og:description"
+          content="{% trans %}Online networking{% endtrans %}"
+          name="description"/>
+    <meta property="og:image"
+          content="https://www.meetsup.{{ app.request.getDefaultLocale() == 'en' ? 'io' : 'co' }}/assets/img/favicon2/fb.png"/>
+
+    <!-- Favicons -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/img/favicon2/apple-touch-icon.png?v=m2neAvdaow">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon2/favicon-32x32.png?v=m2neAvdaow">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicon2/favicon-16x16.png?v=m2neAvdaow">
+    <link rel="manifest" href="/assets/img/favicon2/site.webmanifest?v=m2neAvdaow">
+    <link rel="mask-icon" href="/assets/img/favicon2/safari-pinned-tab.svg?v=m2neAvdaow" color="#5bbad5">
+    <link rel="shortcut icon" href="/assets/img/favicon2/favicon.ico?v=m2neAvdaow">
+    <meta name="msapplication-TileColor" content="#2d89ef">
+    <meta name="msapplication-config" content="/assets/img/favicon2/browserconfig.xml?v=m2neAvdaow">
+    <meta name="theme-color" content="#ffffff">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Montserrat:300,400,500,600,700"
+          rel="stylesheet">
+
+    <!-- Vendor CSS Files -->
+    <link href="{{ asset('assets/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/vendor/bootstrap/css/bootstrap-grid.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/vendor/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/vendor/ionicons/css/ionicons.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/vendor/venobox/venobox.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/vendor/owl.carousel/assets/owl.carousel.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/vendor/aos/aos.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('assets/corner-popup/css/corner-popup.min.css') }}">
+
+    {{ encore_entry_link_tags('app') }}
+
+    <!-- Template Main CSS File -->
+    <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet">
+
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+
+    {% block stylesheets %}{% endblock %}
+
+    <!-- Yandex.Metrika counter -->
+    <script type="text/javascript">
+        (function (m, e, t, r, i, k, a) {
+            m[i] = m[i] || function () {
+                (m[i].a = m[i].a || []).push(arguments)
+            };
+            m[i].l = 1 * new Date();
+            k = e.createElement(t), a = e.getElementsByTagName(t)[0], k.async = 1, k.src = r, a.parentNode.insertBefore(k, a)
+        })
+        (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+        ym(68638720, "init", {
+            clickmap: true,
+            trackLinks: true,
+            accurateTrackBounce: true,
+            webvisor: true
+        });
+    </script>
+    <noscript>
+        <div><img src="https://mc.yandex.ru/watch/68638720" style="position:absolute; left:-9999px;" alt=""/></div>
+    </noscript>
+    <!-- /Yandex.Metrika counter -->
+</head>
+
+<body>
+
+{% if app.user is null %}
+    <div class="container position-relative">
+        <div id="g_id_onload"
+             data-client_id="924096504584-cihmcra05see5icdkgapn3pkffss5q8l.apps.googleusercontent.com"
+             data-prompt_parent_id="g_id_onload"
+             style="position: fixed; top: 60px; right: 30px; z-index: 1001;"
+             data-context="use"
+             data-login_uri="{{ url('onetap_google_check') }}">
+        </div>
+    </div>
+{% endif %}
+
+{#<!-- ======= Top Bar ======= -->#}
+{#<div id="topbar" class="d-none d-lg-flex align-items-end fixed-top topbar-transparent">#}
+{#<div class="container d-flex justify-content-end">#}
+{#<div class="social-links">#}
+{#<a href="#" class="twitter"><i class="fa fa-twitter"></i></a>#}
+{#<a href="#" class="facebook"><i class="fa fa-facebook"></i></a>#}
+{#<a href="#" class="linkedin"><i class="fa fa-linkedin"></i></a>#}
+{#<a href="#" class="instagram"><i class="fa fa-instagram"></i></a>#}
+{#</div>#}
+{#</div>#}
+{#</div>#}
+
+<!-- ======= Header ======= -->
+<header id="header" class="fixed-top header-transparent" style="box-shadow: 0 8px 8px -10px rgb(0 0 0 / 15%);">
+    <div class="container d-flex align-items-center">
+        <!--<a href="index.html" class="logo"><img src="assets/img/favicon.png" alt="" class="img-fluid"></a>-->
+        <h1 class="logo mr-auto">
+            <a href="/">
+                <img src="{{ asset('assets/img/logo.svg') }}">MEET<span style="color: #1bb1dc">S</span>UP
+            </a>
+        </h1>
+        <nav class="main-nav d-none d-lg-block">
+            <ul>
+                {#{% if app.request.get('_route') == 'index' %}#}
+                {#<li class="active"><a href="/">{% trans %}Index{% endtrans %}</a></li>#}
+                {#<li><a href="/#about">{% trans %}About Us{% endtrans %}</a></li>#}
+                {#<li><a href="/#review">{% trans %}Review{% endtrans %}</a></li>#}
+                {#<li><a href="#footer">{% trans %}Feedback{% endtrans %}</a></li>#}
+                {#{% else %}#}
+                {#<li class="{{ app.request.get('_route') == 'user_communities' ? 'active' }}">#}
+                {#<a href="{{ path('user_communities') }}">Подтверждение встреч и оценки</a>#}
+                {#</li>#}
+                {#<li class="{{ app.request.get('_route') == 'call_list' ? 'active' }}">#}
+                {#<a href="{{ path('call_list') }}">Мой нетворкинг</a>#}
+                {#</li>#}
+                {#{% endif %}#}
+                {% if app.user %}
+                    <li class="drop-down d-none d-lg-block pl-5">
+                        <div class="image-cropper header-avatar align-middle"
+                             style="
+                                     display: inline-block;
+                                     background-image: url('{{ app.user.getPictureUrl() }}');
+                                     ">
+                        </div>
+                        <a href="#" class="d-inline-block pl-1"></a>
+                        <ul>
+                            <li><a href="{{ path('user_communities') }}">{% trans %}Community meetings{% endtrans %}</a>
+                            </li>
+                            <li><a href="{{ path('call_list') }}">{% trans %}My Contacts{% endtrans %}</a></li>
+                            <li><a href="/user/profile">{% trans %}Edit Profile{% endtrans %}</a></li>
+                            <li><a href="/logout">{% trans %}Logout{% endtrans %}</a></li>
+                        </ul>
+                    </li>
+                    <li>&nbsp;</li>
+                    {#<li class="d-lg-none"><a href="/">{% trans %}Index{% endtrans %}</a></li>#}
+                    <li class="d-lg-none">
+                        <a href="{{ path('user_communities') }}">
+                            {% trans %}Community meetings{% endtrans %}
+                        </a>
+                    </li>
+                    <li class="d-lg-none"><a href="{{ path('call_list') }}">{% trans %}My Contacts{% endtrans %}</a>
+                    </li>
+                    <li class="d-lg-none"><a href="/user/profile">{% trans %}Edit Profile{% endtrans %}</a></li>
+                    <li class="d-lg-none"><a href="/logout">{% trans %}Logout{% endtrans %}</a></li>
+                {% else %}
+                    <li><a class="btn-sign-in" href="/connect">{% trans %}Login{% endtrans %}</a></li>
+                {% endif %}
+            </ul>
+        </nav><!-- .main-nav-->
+    </div>
+</header><!-- End Header -->
+<div class="d-lg-none m-4">&nbsp;</div>
+{% block body %}{% endblock %}
+<!-- ======= Footer ======= -->
+<footer id="footer" class="section-bg">
+    <div class="footer-top">
+        <div class="container">
+
+            <div class="row">
+
+                <div class="col-lg-6">
+
+                    <div class="row">
+
+                        <div class="col-sm-6">
+
+                            <div class="footer-info">
+                                <h3>Meetsup</h3>
+                                <p>{{ 'footer.text'|trans|raw }}</p>
+                            </div>
+
+                            {#<div class="footer-newsletter">#}
+                            {#<h4>Our Newsletter</h4>#}
+                            {#<p>Tamen quem nulla quae legam multos aute sint culpa legam noster magna veniam enim#}
+                            {#veniam illum dolore legam minim quorum culpa amet magna export quem.</p>#}
+                            {#<form action="" method="post">#}
+                            {#<input type="email" name="email"><input type="submit" value="Subscribe">#}
+                            {#</form>#}
+                            {#</div>#}
+
+                        </div>
+
+                        <div class="col-sm-6">
+                            <div class="footer-links">
+                                <h4>{{ 'Links'|trans }}</h4>
+                                <ul>
+                                    <li><a href="/#">{{ 'Home'|trans }}</a></li>
+                                    {#<li><a href="/#about">О нас</a></li>#}
+                                </ul>
+                            </div>
+
+                            <div class="footer-links">
+                                <h4>{{ 'Contacts'|trans }}</h4>
+                                <p>
+                                    <strong>Email:</strong>
+                                    <a href="mailto:{{ supportEmail }}">{{ supportEmail }}</a><br />
+                                </p>
+                            </div>
+
+                            {#<div class="social-links">#}
+                            {#<a href="#" class="twitter"><i class="fa fa-twitter"></i></a>#}
+                            {#<a href="#" class="facebook"><i class="fa fa-facebook"></i></a>#}
+                            {#<a href="#" class="instagram"><i class="fa fa-instagram"></i></a>#}
+                            {#<a href="#" class="linkedin"><i class="fa fa-linkedin"></i></a>#}
+                            {#</div>#}
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="col-lg-6">
+
+                    <div class="form">
+
+                        <h4>{{ 'Feedback'|trans }}</h4>
+
+                        <form action="/contact" method="post" role="form" class="php-email-form">
+                            <input type="hidden" name="contact_form[_token]"
+                                   value="{{ csrf_token('contact_form') }}"
+                            >
+                            {% if app.user %}
+                                <input type="hidden" name="contact_form[name]" value="{{ app.user.getFullName()|e }}">
+                                <input type="hidden" name="contact_form[email]" value="{{ app.user.getActualEmail() }}">
+                            {% else %}
+                                <div class="form-group">
+                                    <input type="text" name="contact_form[name]" class="form-control" id="name"
+                                           placeholder="{{ 'Name'|trans }}"
+                                           data-rule="minlen:4" data-msg="{{ 'At least 4 characters'|trans }}"/>
+                                    <div class="validate"></div>
+                                </div>
+                                <div class="form-group">
+                                    <input type="email" class="form-control" name="contact_form[email]" id="email"
+                                           placeholder="Email" data-rule="email"
+                                           data-msg="{{ 'Invalid email format'|trans }}"/>
+                                    <div class="validate"></div>
+                                </div>
+                            {% endif %}
+                            <div class="form-group">
+                                <input type="text" class="form-control" name="contact_form[subject]" id="subject"
+                                       placeholder="{{ 'Subject'|trans }}" data-rule="minlen:4"
+                                       data-msg="{{ 'At least 4 characters'|trans }}"/>
+                                <div class="validate"></div>
+                            </div>
+                            <div class="form-group">
+                                <textarea class="form-control" name="contact_form[message]" rows="5"
+                                          data-rule="required"
+                                          data-msg="{{ 'Required field'|trans }}"
+                                          placeholder="{{ 'Message'|trans }}"></textarea>
+                                <div class="validate"></div>
+                            </div>
+
+                            <div class="mb-3">
+                                <div class="loading">Загрузка</div>
+                                <div class="error-message"></div>
+                                <div class="sent-message">{{ 'Your message has been sent. Thank!'|trans }}</div>
+                            </div>
+
+                            <div class="text-center">
+                                <button type="submit" title="Send Message">{{ 'Send'|trans }}</button>
+                            </div>
+                        </form>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="copyright">
+            &copy; Copyright <strong>Meetsup</strong>. All Rights Reserved
+        </div>
+        <div class="credits"></div>
+    </div>
+</footer><!-- End  Footer -->
+
+<a href="#" class="back-to-top"><i class="fa fa-chevron-up"></i></a>
+
+<!-- Vendor JS Files -->
+<script src="{{ asset('assets/vendor/jquery/jquery.min.js') }}"></script>
+<script src="{{ asset('assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ asset('assets/vendor/jquery.easing/jquery.easing.min.js') }}"></script>
+<script src="{{ asset('assets/vendor/php-email-form/validate.js') }}"></script>
+<script src="{{ asset('assets/vendor/isotope-layout/isotope.pkgd.min.js') }}"></script>
+<script src="{{ asset('assets/vendor/counterup/counterup.min.js') }}"></script>
+<script src="{{ asset('assets/vendor/venobox/venobox.min.js') }}"></script>
+<script src="{{ asset('assets/vendor/owl.carousel/owl.carousel.min.js') }}"></script>
+<script src="{{ asset('assets/vendor/waypoints/jquery.waypoints.min.js') }}"></script>
+<script src="{{ asset('assets/vendor/aos/aos.js') }}"></script>
+<script src="{{ asset('assets/corner-popup/js/corner-popup.min.js') }}"></script>
+
+{{ encore_entry_script_tags('app') }}
+
+
+<!-- Template Main JS File -->
+<script src="{{ asset('assets/js/main.js') }}"></script>
+
+{% if app.request.getDefaultLocale() == 'en' %}
+    <script>
+        $.fn.cornerpopup({
+            variant: 2,
+            btnColor: '#1bb1dc',
+            cookieImg: '{{ asset('assets/corner-popup/img/icon-1.png') }}',
+            text1: 'This website uses cookies to ensure you get the best experience on our website. <a href="{{ path('app_cookie_policy') }}"><u>More information</u></a>.',
+        });
+    </script>
+{% endif %}
+
+{% block javascripts %}{% endblock %}
+
+</body>
+
+</html>

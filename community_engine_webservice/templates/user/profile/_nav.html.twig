@@ -1,0 +1,64 @@
+{#<ul class="nav nav-pills pull-right">#}
+    {#<li class="nav-item">#}
+        {#<a class="nav-link active" href="#">Профиль</a>#}
+    {#</li>#}
+    {#<li class="nav-item">#}
+        {#<a class="nav-link" href="#">Мои конференции</a>#}
+    {#</li>#}
+{#</ul>#}
+{#<div class="clearfix"></div>#}
+{#<hr/>#}
+{#<br/>#}
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light p-0">
+    <button
+            class="navbar-toggler"
+            type="button"
+            data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+            style="margin-bottom: 30px;"
+    >
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            {#<li class="nav-item m-2">#}
+            {#<a class="btn btn-outline-info" href="#"><i class="fa fa-play-circle"></i> Мои конференции</a>#}
+            {#</li>#}
+            <li class="nav-item m-2 pl-0 ml-md-0">
+                <a class="btn rounded-pill btn-{{ app.request.get('_route') != 'user_communities' ? 'outline-' }}primary"
+                   href="{{ path('user_communities') }}"><i
+                            class="fa fa-comment"></i> {% trans %}Community meetings{% endtrans %}</a>
+            </li>
+            <li class="nav-item m-2">
+                <a class="btn rounded-pill btn-{{ app.request.get('_route') != 'call_list' ? 'outline-' }}primary"
+                   href="{{ path('call_list') }}"><i class="fa fa-play-circle"></i> {% trans %}My Contacts{% endtrans %}
+                </a>
+            </li>
+            <li class="nav-item m-2">
+                <a class="btn rounded-pill btn-{{ app.request.get('_route') != 'user_profile' ? 'outline-' }}primary"
+                   href="{{ path('user_profile') }}"><i class="fa fa-user"></i> {% trans %}Profile{% endtrans %}</a>
+            </li>
+            {#<li class="nav-item m-2">#}
+            {#<a class="btn rounded-pill btn-{{ app.request.get('_route') != 'user_communities' ? 'outline-' }}info"#}
+            {#href="{{ path('user_communities') }}"><i class="fa fa-comment"></i> Оповещения</a>#}
+            {#</li>#}
+            {% if is_granted('ROLE_COMMUNITY_MANAGER') %}
+                <li class="nav-item m-2">
+                    <a class="btn rounded-pill btn-{{ app.request.get('_route') != 'manager_community' ? 'outline-' }}danger"
+                       href="{{ path('manager_community') }}">
+                        <i class="fa fa-cog"></i> {% trans %}Admin Area{% endtrans %}
+                    </a>
+                </li>
+            {% endif %}
+        </ul>
+        {#<form class="form-inline my-2 my-lg-0 m-2">#}
+        {#<input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">#}
+        {#<button class="btn btn-outline-info my-2 my-sm-0" type="submit">Search</button>#}
+        {#</form>#}
+    </div>
+</nav>

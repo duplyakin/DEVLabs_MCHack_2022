@@ -1,0 +1,82 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Analytics{% endblock %}
+
+{% block body %}
+    <main id="main">
+
+        <!-- ======= Breadcrumbs ======= -->
+        <section id="breadcrumbs" class="breadcrumbs d-none d-lg-block bg-light">
+            <div class="container">
+                {% include 'user/profile/_nav.html.twig' %}
+            </div>
+        </section><!-- End Breadcrumbs -->
+
+        <section class="inner-page pt-4 mb-5">
+            <div class="container">
+                <div class="mt-3">
+                    {% for message in app.flashes('success') %}
+                        <div class="alert alert-success">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <h3>
+                    <a href="{{ path('manager_community') }}"><i class="fa fa-long-arrow-left" aria-hidden="true"></i>
+                        Community List</a> |
+                    {{ community.getTitle() }} | <span class="text-muted">Analytics</span>
+                </h3>
+
+                <div class="charts">
+                    <div class="row">
+                        {% for title, chart in charts %}
+                            <div class="col-12 col-lg-6 p-1 chart-item">
+                                <div class="card">
+                                    <a href="#" class="open-chart-modal" data-toggle="modal" data-target="#chart-modal">
+                                        <div class="card-body">
+                                            <h3 class="text-center">{{ title }}
+                                            {% if title == 'Connects' and connectParams.all is defined %}
+                                                ({{ connectParams.all }})
+                                            {% endif %}
+                                            </h3>
+                                            <div class="chart">
+                                                {{ render_chart(chart) }}
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <div class="modal" tabindex="-1" role="dialog" id="chart-modal">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body"></div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        $(() => {
+            $(document).on('click', '.open-chart-modal', (e) => {
+                let title = $(e.target).closest('.chart-item').find('h3').text();
+                let chart = $(e.target).closest('.chart-item').find('.chart').html();
+                $('.modal-body').html(chart);
+                $('.modal-title').html(title);
+            });
+        });
+    </script>
+{% endblock %}

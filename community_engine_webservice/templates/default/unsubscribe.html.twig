@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Unsubscribe | Meetsup Community Networking</title>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <meta content="{% trans %}Online networking{% endtrans %}" name="descriptison">
+    <meta content="community,networking,meets,meet,meetup,meetsup" name="keywords">
+
+    <meta property="og:url" content="{{ app.request.uri }}"/>
+    <meta property="og:type" content="website"/>
+    <meta property="og:title" content="{% trans %}Meetsup - Online networking{% endtrans %}"/>
+    <meta property="og:description"
+          content="{% trans %}Online networking{% endtrans %}"
+          name="description"/>
+    <meta property="og:image"
+          content="https://www.meetsup.{{ app.request.getDefaultLocale() == 'en' ? 'io' : 'co' }}/assets/img/favicon2/fb.png"/>
+
+    <!-- Favicons -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/img/favicon2/apple-touch-icon.png?v=m2neAvdaow">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon2/favicon-32x32.png?v=m2neAvdaow">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicon2/favicon-16x16.png?v=m2neAvdaow">
+    <link rel="manifest" href="/assets/img/favicon2/site.webmanifest?v=m2neAvdaow">
+    <link rel="mask-icon" href="/assets/img/favicon2/safari-pinned-tab.svg?v=m2neAvdaow" color="#5bbad5">
+    <link rel="shortcut icon" href="/assets/img/favicon2/favicon.ico?v=m2neAvdaow">
+    <meta name="msapplication-TileColor" content="#2d89ef">
+    <meta name="msapplication-config" content="/assets/img/favicon2/browserconfig.xml?v=m2neAvdaow">
+    <meta name="theme-color" content="#ffffff">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Montserrat:300,400,500,600,700"
+          rel="stylesheet">
+
+    <!-- Vendor CSS Files -->
+    <link href="{{ asset('assets/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/vendor/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/vendor/ionicons/css/ionicons.min.css') }}" rel="stylesheet">
+
+    <!-- Template Main CSS File -->
+    <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet">
+
+    <!-- Yandex.Metrika counter -->
+    <script type="text/javascript">
+        (function (m, e, t, r, i, k, a) {
+            m[i] = m[i] || function () {
+                (m[i].a = m[i].a || []).push(arguments)
+            };
+            m[i].l = 1 * new Date();
+            k = e.createElement(t), a = e.getElementsByTagName(t)[0], k.async = 1, k.src = r, a.parentNode.insertBefore(k, a)
+        })
+        (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+        ym(68638720, "init", {
+            clickmap: true,
+            trackLinks: true,
+            accurateTrackBounce: true,
+            webvisor: true
+        });
+    </script>
+    <noscript>
+        <div><img src="https://mc.yandex.ru/watch/68638720" style="position:absolute; left:-9999px;" alt=""/></div>
+    </noscript>
+    <!-- /Yandex.Metrika counter -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+</head>
+<body style="background-color:#f2f2f2; height:100vh;">
+
+<div class="container h-100 d-flex justify-content-center align-items-center">
+    <div class="my-auto w-50">
+        <h1 class="logo mr-auto">
+            <a href="/"
+               style='letter-spacing: 3px; color: #514F7E; font-weight: 700; font-family: "Gilroy-Bold", "Montserrat", sans-serif'>
+                <img src="{{ asset('assets/img/logo.svg') }}">
+                MEET<span style="color: #1bb1dc">S</span>UP
+            </a>
+        </h1>
+        <div class="unsubscribe">
+            <div class="card w-100" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title">Отписка от рассылки</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">Для пользователя {{ user.getActualEmail() }}</h6>
+                    <p class="card-text">
+                        {% if submitted %}
+                        {% if error %}
+                    <div class="alert alert-danger">
+                        {{ error }}
+                    </div>
+                    {% else %}
+                        Вы успешно отписались от рассылки! <br/><br/>
+                        Восстановить подписку Вы можете на
+                        <a href="{{ notificationLink }}">
+                            <u>странице &laquo;Оповещения&raquo;</u>
+                        </a>
+                        <br/><br/>
+                        <a href="/"><u>На главную</u> &rarr;</a>
+                    {% endif %}
+                    {% endif %}
+                    </p>
+                    {% if not submitted %}
+                        <a href="{{ path('app_unsubscribe', {"public_id": user.getPublicId(), "token": csrf_token('unsubscribe')}) }}"
+                           class="btn btn-danger w-100">Отписаться от всех рассылок</a>
+                        {% if (community) %}
+                            <br/><br/>
+                            <a href="{{ path('app_unsubscribe', {"public_id": user.getPublicId(), "community_url": community.getUrl(), "token": csrf_token('unsubscribe')}) }}"
+                               class="btn btn-danger w-100">Отписаться от рассыли
+                                сообщества {{ community.getTitle() }}</a>
+                        {% endif %}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

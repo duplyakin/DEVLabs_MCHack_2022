@@ -1,0 +1,297 @@
+{% extends 'base_clean.html.twig' %}
+
+{% form_theme form 'bootstrap_4_layout.html.twig' %}
+
+{% block bodyattr %}
+    class="bg-white text-dark" style="height: 100%;"
+{% endblock %}
+
+{% block stylesheets %}
+    <style>
+        .image-cropper {
+            width: 41px;
+            height: 41px;
+            position: relative;
+            overflow: hidden;
+            border-radius: 50%;
+        }
+
+        .profile-edit-avatar {
+            display: inline-block;
+            position: relative;
+            padding-bottom: 100%;
+            width: 100%;
+            border: 1px solid #ccc;
+            background: center / cover no-repeat;
+        }
+
+        .upload-picture {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+        }
+
+        .upload-picture button {
+            font-size: 25px;
+            width: 100%;
+            opacity: 0.7;
+        }
+
+        #profile-picture {
+            position: absolute;
+            overflow: hidden;
+            visibility: hidden;
+        }
+
+        .profile-edit-avatar.error {
+            border: 1px solid red;
+        }
+
+        .link-edit-avatar {
+            cursor: pointer;
+        }
+
+        .img-loader {
+            position: absolute;
+            top: calc(50% - 25px);
+            left: calc(50% - 25px);
+            display: none;
+            opacity: 1 !important;
+        }
+
+        .loader {
+            border: 8px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 8px solid #1bb1dc;
+            border-bottom: 8px solid #1bb1dc;
+            width: 50px;
+            height: 50px;
+            -webkit-animation: spin 2s linear infinite;
+            animation: spin 2s linear infinite;
+        }
+
+        @-webkit-keyframes spin {
+            0% {
+                -webkit-transform: rotate(0deg);
+            }
+            100% {
+                -webkit-transform: rotate(360deg);
+            }
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .error-photo {
+            display: none;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="container profile-page">
+        <div class="text-center mt-5">
+            <h3 class="wizard-title">{% trans %}Create profile{% endtrans %}</h3>
+            <p class="text-muted">{% trans %}This information will help us find the most relevant contact for you{% endtrans %}</p>
+        </div>
+        <form method="post">
+            {{ form_widget(form._token) }}
+            <div class="d-flex align-items-center flex-column justify-content-center h-100">
+                <div class="col-lg-9">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="error-photo alert alert-danger"></div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-4 col-sm-offset-1 d-flex align-items-center justify-content-center">
+                                    <div class="image-cropper profile-edit-avatar mx-auto"
+                                         style="background-image: url('{{ app.user.getPictureUrl() }}');">
+                                        <div class="loader img-loader"></div>
+                                        <input type="file" id="profile-picture">
+                                        <div class="upload-picture">
+                                            <button type="button" class="upload btn btn-dark">
+                                                <i class="fa fa-camera"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-8">
+                                    <div class="form-group">
+                                        <label>{% trans %}Name{% endtrans %}
+                                            <small>({% trans %}Required{% endtrans %})</small>
+                                        </label>
+                                        <input name="{{ form.firstName.vars.full_name }}"
+                                               value="{{ form.firstName.vars.value|e }}" type="text"
+                                               class="form-control {{ not form.firstName.vars.valid ? 'is-invalid' }}">
+                                        <div class="form-error">
+                                            {{ form_errors(form.firstName) }}
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>{% trans %}Last name{% endtrans %}
+                                            <small>({% trans %}Required{% endtrans %})</small>
+                                        </label>
+                                        <input name="{{ form.lastName.vars.full_name }}"
+                                               value="{{ form.lastName.vars.value|e }}" type="text"
+                                               class="form-control {{ not form.lastName.vars.valid ? 'is-invalid' }}">
+                                        <div class="form-error">
+                                            {{ form_errors(form.lastName) }}
+                                        </div>
+                                    </div>
+                                    {% if app.user.getEmail() is empty %}
+                                        <div class="form-group">
+                                            <label>E-mail
+                                                <small>({% trans %}Required{% endtrans %})</small>
+                                            </label>
+                                            <input id="email-alt-field" name="{{ form.emailAlt.vars.full_name }}"
+                                                   value="{{ form.emailAlt.vars.value|e }}" type="email"
+                                                   placeholder="{{ app.user.email|e }}"
+                                                   class="form-control {% if form.emailAlt.vars.valid == false %}error{% endif %}">
+                                            {{ form_errors(form.emailAlt) }}
+                                            {#{% if form.emailAlt.vars.errors|length > 0 %}#}
+                                                {#{% for error in form.emailAlt.vars.errors %}#}
+                                                    {#<label class="error text-danger"#}
+                                                           {#for="{{ form.emailAlt.vars.full_name }}">{{ error.message }}</label>#}
+                                                {#{% endfor %}#}
+                                            {#{% endif %}#}
+                                        </div>
+                                    {% else %}
+                                        <div class="form-group">
+                                            <label>E-Mail</label>
+                                            <input name="email"
+                                                   value="{{ app.user.email|e }}"
+                                                   type="text"
+                                                   disabled="disabled"
+                                                   class="form-control">
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card mt-4">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-6 col-sm-offset-1">
+                                    <div class="form-group">
+                                        <label>{% trans %}Facebook link{% endtrans %}
+                                            {#<small>(required)</small>#}
+                                        </label>
+                                        <input name="{{ form.facebookLink.vars.full_name }}" type="text"
+                                               class="form-control" value="{{ form.facebookLink.vars.value|e }}"
+                                               placeholder="https://www.facebook.com/username">
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>{% trans %}Linkedin link{% endtrans %}
+                                            {#<small>(required)</small>#}
+                                        </label>
+                                        <input name="{{ form.linkedinLink.vars.full_name }}" type="text"
+                                               class="form-control" value="{{ form.linkedinLink.vars.value|e }}"
+                                               placeholder="https://www.linkedin.com/in/username">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card mt-4">
+                        <div class="card-body">
+                            {#<div class="form-group">#}
+                                {#<label>Имя пользователя Telegram#}
+                                    {#<small>(обязательно)</small>#}
+                                {#</label>#}
+                                {#<input name="{{ form.telegramUsername.vars.full_name }}" type="text"#}
+                                       {#class="form-control"#}
+                                       {#value="{{ form.telegramUsername.vars.value|e }}"#}
+                                       {#placeholder="@username">#}
+                            {#</div>#}
+                            <div class="form-group">
+                                <label>
+                                    {% trans %}Calendly link{% endtrans %}
+                                </label>
+                                <input name="{{ form.calendlyLink.vars.full_name }}"
+                                       value="{{ form.calendlyLink.vars.value|e }}" type="text"
+                                       class="form-control {{ not form.calendlyLink.vars.valid ? 'is-invalid' }}">
+                                <div class="form-error">
+                                    {{ form_errors(form.calendlyLink) }}
+                                </div>
+                            </div>
+                            {#{% for question in questions %}#}
+                                {#<div class="form-group">#}
+                                    {#<label>{{ question.getTitle() }}#}
+                                        {#<small>(required)</small>#}
+                                    {#</label>#}
+                                    {#<input type="hidden"#}
+                                           {#name="customAnswersQuestion[{{ question.getId() }}]" value="1">#}
+                                    {#<input name="customAnswers[{{ question.getId() }}]" type="text"#}
+                                           {#class="form-control">#}
+                                {#</div>#}
+                            {#{% endfor %}#}
+                            <div class="form-group">
+                                <label>{% trans %}What is your expertise?{% endtrans %}
+                                    <small>({% trans %}Required{% endtrans %})</small>
+                                </label>
+                                <textarea name="{{ form.about.vars.full_name }}"
+                                          placeholder="{% trans %}Current place of work, skills, experience{% endtrans %}"
+                                          maxlength="200"
+                                          class="form-control {{ not form.about.vars.valid ? 'is-invalid' }}">{{ form.about.vars.value|e }}</textarea>
+                                <div class="form-error">
+                                    {{ form_errors(form.about) }}
+                                </div>
+                                <small>
+                                    {% trans %}This field is visible to other members{% endtrans %}
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-9">
+                    <div class="row text-center mt-5 mb-5">
+                        <div class="col-6 d-none d-lg-block">
+                            <a href="{{ path('user_profile_questions') }}" class="btn btn-lg btn-outline-primary rounded-pill">
+                                &larr; {% trans %}Back{% endtrans %}
+                            </a>
+                        </div>
+                        <div class="col-4 d-lg-none">
+                            <a href="{{ path('user_profile_questions') }}" class="btn btn-lg btn-outline-primary rounded-pill">
+                                &larr;
+                            </a>
+                        </div>
+                        <div class="col-8 col-lg-6">
+                            <button type="submit" class="btn btn-lg btn-success rounded-pill">
+                                {% trans %}Save{% endtrans %}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="bg-light border-top footer d-flex justify-content-center align-items-center">
+        <small>© Copyright <a target="_blank" href="https://www.meetsup.io">Meetsup</a>. All Rights Reserved</small>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        let maxSelect = 3;
+        let skey = "{{ csrf_token('email-token') }}";
+        let req = Boolean({{ app.user.getEmail() is empty }});
+    </script>
+    <script src="{{ asset('assets/onboarding/onboard.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('assets/js/jquery.validate.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('assets/js/localization/messages_' ~ (app.request.getDefaultLocale() == 'ru' ? 'ru' : 'en') ~ '.js') }}" type="text/javascript"></script>
+{% endblock %}

@@ -1,0 +1,135 @@
+{% block stylesheets %}
+    <style>
+        .card.error {
+            border-color: red;
+        }
+
+        textarea.error {
+            border-color: red;
+        }
+
+        .card {
+            width: 80%;
+        }
+
+        .onboarding-button {
+            width: calc(50% - 1rem);
+            min-height: 45px;
+        }
+
+        @media only screen and (max-width: 1199.98px) {
+            .card {
+                width: 100%;
+            }
+        }
+
+        @media only screen and (max-width: 991.98px) {
+            .onboarding-button {
+                width: 100%;
+            }
+
+            button {
+                width: 100% !important;
+            }
+
+            .card {
+                width: 100%;
+            }
+        }
+
+        .btn-outline-primary {
+            color: #1a8cb2;
+            border-color: #1a8cb2;
+        }
+
+        .btn-outline-primary.active {
+            border-color: #1a8cb2 !important;
+            background: #1a8cb2 !important;
+        }
+
+        .btn-outline-primary.disabled {
+            color: #1a8cb2;
+            cursor: not-allowed;
+        }
+
+        .btn-outline-primary:hover {
+            color: #1a8cb2;
+            border-color: #1a8cb2;
+            background: transparent;
+        }
+
+        .btn-outline-primary.focus, .btn-outline-primary:focus {
+            box-shadow: 0 0 0 0.2rem rgba(26, 140, 178, 0.5);
+        }
+
+        .btn-outline-primary:not(:disabled):not(.disabled).active, .btn-outline-primary:not(:disabled):not(.disabled):active, .show > .btn-outline-primary.dropdown-toggle {
+            color: #fff;
+            background-color: #1a8cb2;
+            border-color: #1a8cb2;
+        }
+    </style>
+{% endblock %}
+
+{% set label = label is defined ? label : 'NEXT'|trans ~ " &rarr;" %}
+
+<input type="hidden" name="token" value="{{ csrf_token('questions-token') }}"/>
+<div class="d-flex align-items-center flex-column justify-content-center h-100">
+    {% for question in questions %}
+        <div class="card p-4 mt-5 pt-3 question-box" data-question-id="{{ question.getId() }}">
+            <h5 class="font-weight-normal text-center">
+                {{ question.title }}
+            </h5>
+            <div class="error-box text-center alert-danger rounded"></div>
+            <p class="text-center">
+                <small class="text-muted">
+                    {% if question.multiple %}
+                        {% trans %}You can choose several options (no more than 3){% endtrans %}
+                    {% else %}
+                        {% trans %}You can choose one option{% endtrans %}
+                    {% endif %}
+                </small>
+            </p>
+            <div class="d-flex align-self-stretch flex-wrap btn-group-toggle" data-toggle="buttons">
+                {% for answer in question.getAnswers() %}
+                    <label class="position-relative btn btn-outline-primary rounded-pill onboarding-button m-2 d-flex justify-content-center align-items-center">
+                        <input type="{{ question.multiple ? 'checkbox' : 'radio' }}"
+                               class="answer-input-q-{{ question.getId() }}"
+                               id="answer-{{ answer.getId() }}"
+                               data-question="{{ question.id }}"
+                               required
+                                {{ user.containAnswerById(answer.getId()) ? 'checked' : '' }}
+                               data-msg="{% trans %}Please choose an answer{% endtrans %}"
+                               name="{% if question.multiple %}answerMultiple[{{ question.getId() }}][]{% else %}answerSingle[{{ question.id }}]{% endif %}"
+                               value="{{ answer.id }}" autocomplete="off">
+                        {% if answer.icon %}
+                            <i class="{{ answer.icon }}"></i>&nbsp;
+                        {% endif %}
+                        {{ answer.title }}
+                        {#<span style="display: block; position: absolute; color: #fff; top: 10px; right: 15px;">#}
+                        {#<i class="fa fa-times-circle"></i>#}
+                        {#</span>#}
+                    </label>
+                {% endfor %}
+            </div>
+        </div>
+    {% endfor %}
+    <div class="card p-4 mt-5 pt-3">
+        <div class="error-box text-center alert-danger rounded"></div>
+        <label for="lookingFor">
+            <small>
+                {% trans %}Your wishes for find of partners relevant to you{% endtrans %}
+                ({% trans %}Required{% endtrans %})
+            </small>
+        </label>
+        <textarea name="looking_for"
+                  data-msg="{% trans %}Requests for networking must be filled{% endtrans %}"
+                  class="form-control" id="lookingFor"
+                  required>{{ lookingFor is defined ? lookingFor|e }}</textarea>
+    </div>
+
+    <div id="messageBox"></div>
+
+    <div class="text-center mt-5 mb-5">
+        <button type="submit" class="btn btn-lg btn-success rounded-pill">{{ label|raw }}</button>
+    </div>
+</div>

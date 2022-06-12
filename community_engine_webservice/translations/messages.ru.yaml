@@ -1,0 +1,116 @@
+First name: Имя
+Last name: Фамилия
+Telegram username: Имя пользователя Telegram
+Facebook link: Ссылка на профиль Facebook
+Linkedin link: Ссылка на профиль LinkedIn
+About me: Кратко о себе
+Save: Сохранить
+Back: Назад
+Looking for: Ваши пожелания для нетворкинга
+User.Full Name: ФИО
+User.Facebook Link: FB
+User.Linkedin Link: LD
+User.About: О себе
+User.Looking For: Пожелания
+User.Answers: Ответы
+Certificate not found: Сертификат не найден
+Certificate is not active: Этот сертификат уже был использован ранее
+Certificate has been used already before: Этот сертификат уже был использован ранее
+Login with: Войти с помощью
+Online networking: Онлайн нетворкинг c релевантными для вас профессиональными контактами. Каждую неделю Meets'up знакомит вас с новыми людьми, с учетом ваших интересов и задач
+Meetsup - Online networking: Meetsup - Онлайн нетворкинг
+Name: Имя
+Subject: Тема
+Message: Текст сообщения
+Your message has been sent. Thank!: Ваше сообщение отправлено. Спасибо!
+Send: Отправить сообщение
+Feedback: Обратная связь
+Links: Полезные ссылки
+Home: Главная
+Contacts: Контакты
+footer.text: Meetsup - платформа для поиска новых профессиональных контактов, релевантных Вашим задачам и интересам<br/><br/>Присоединяйтесь и расширяйте свои профессиональные связи!
+Required field: Поле обязательно для заполнения
+At least 4 characters: Не менее 4-х символов
+Invalid email format: Неверный формат email
+Create profile: Создание профиля
+This information will help us find the most relevant contact for you: Эта информация поможет нам эффективно подобрать вам собеседника
+Interests: Интересы
+Required: Обязательно
+Surname: Фамилия
+What is your expertise?: Чем занимаетесь? В чём ваша ключевая экспертиза?
+Current place of work, skills, experience: Место работы, профессиональные навыки, опыт работы
+This field is visible to other members: Это поле отображается другим участникам
+NEXT: ПРОДОЛЖИТЬ
+You can choose several options (no more than 3): Можно выбрать несколько вариантов (не более 3-х)
+You can choose one option: Можно выбрать один вариант
+Your wishes for find of partners relevant to you: Ваши пожелания для подбора релевантных Вам партнеров
+Requests for networking must be filled: Необходимо заполнить пожелания для нетворкинга
+
+Soon there will be contact details and other information about the chosen partners for meetings: В дальнейшем тут появится информация и контактные данные подобранных Вам партнеров для встреч
+The meeting date: Дата коннекта
+Here you can leave the outcomes of the meeting, such as possible topics and offers to the partner. The information is visible only to you.: Поле для Вашей заметки по итогам встречи с партнером. Например, можно зафиксировать по каким вопросам/предложениям можно обращаться к партнеру. Эта заметка видна только Вам.
+Have you met {firstName}?: Состоялась ли встреча с участником по имени {firstName}?
+How relevant was this contact to your interests and requests? Your score is visible only to you.: Оцените насколько была полезна для Вас встреча? Данная оценка не видна партнеру.
+Your score: Ваша оценка
+Thank you: Спасибо
+Yes: Да
+No: Нет
+
+Thanks for the information.<br/>You response has just made Meetsup better!: Спасибо за информацию.<br/>Ваш ответ только что сделал Meetsup лучше!
+Meetsup helps you find new relevant contacts in online communities based on your interests and goals: Добро пожаловать в {minilogo}Meetsup! Здесь Вы сможете находить новые контакты, релевантные Вашим запросам и задачам
+How {minilogo}Meetsup work: Как работает {minilogo}Meetsup
+Confirm your participation in the community meetings on this page: Подтвердите участие в тет-а-тет онлайн встрече в выбранном сообществе на следующей неделе
+On Monday, {minilogo}Meetsup will introduce you to a new contact from the community in the mail and in the connected messenger: В понедельник {minilogo}Meetsup познакомит Вас с новым релевантным Вашим интересам и задачам партнером по встрече
+You just have to say hello to the selected contact and choose the day and time for an online meeting: Вы получите контактные данные партнера по встрече в email и подключенном мессенджере. Вам останется только поздороваться и выбрать день и время для онлайн встречи
+
+We are glad that you are expanding your personal networking via online face-to-face meetings: Мы очень рады, что вы начали расширять личный нетворкинг благодаря онлайн тет-а-тет встречам
+We wish you great networking together with {minilogo}Meetsup!: Желаем отличного нетворкинга вместе с {minilogo}Meetsup!
+You can confirm your participance in every community where you’re registered: Готовы участвовать во встрече сообщества на следующей неделе?<br/>Вы можете подтвердить участие в каждом сообществе, где вы зарегистрированы
+Are you ready to meet a new contact in the {community} community?: Готовы познакомиться с новым контактом в сообществе {community}?
+Participance confirmed: Участие подтверждено
+Confirm your participance: Подтвердить участие
+Answers to the questionnaire: Ответы на вопросы анкеты
+Answer the questionnaire to participate in meetings: Необходимо ответить на вопросы анкеты для участия во встречах
+The participance in the {community} community is approved: Участие в сообществе {community} успешно подтверждено
+On Monday we will introduce you to your meeting partner via email and connected messenger.<br/>Have a successful and useful meeting!: В понедельник мы Вас познакомим с Вашим партнером по встрече, отправив данные в email и подключенный мессенджер.<br/>Удачной и полезной встречи!
+Notifications & community settings: Оповещения и управление сообществами
+Community meetings: Встречи сообществ
+My Contacts: Мои контакты
+Profile: Профиль
+Notifications enabled: Оповещния включены
+Enable notifications: Включить оповещения
+Enable notifications for upcoming community {community} events: Включить оповещение о предстоящих событиях сообщества {community}
+Wrong image format: Неверный формат изображения
+Unknown error, please contact to administrator: Неизвестная ошибка, обратитесь к администратору
+File size should not exceed {size}Mb: Размер файла не должен превышать {size}Mb
+You must choose a photo: Необходимо выбрать фото
+Profile updated successfully!: Профиль успешно обновлен!
+Are you sure you want to delete your account?: Вы точно хотите удалить свой аккаунт?
+This process is irreversible and you will need to register again to try Meetsup in the future.: Этот процесс необратим, и Вам нужно будет снова зарегистрироваться, чтобы участвовать во встречах Meetsup в будущем.
+Type delete to confirm: Напишите delete для подтверждения
+Delete my account: Удалить мой аккаунт
+Please choose an answer: Необходимо ответить на вопрос
+Your notes: Текст заметки
+
+Invite a friend or partner to the {community} community online meetings! Your&nbsp;personal&nbsp;invite&nbsp;👇: Понравилась встреча? Пригласите друга в сообщество {community} и поделитесь с ним инвайтом&nbsp;👇
+Join the {community} community on Meetsup!: Присоединяйтесь к сообществу {community} в Meetsup!
+
+"Hi! We have created this event in your calendar to remind you that this week you have a meeting on Meetsup.\nWe have sent the contact details of your meeting partner to your email. Please write to the contact and agree on the date and time of the meeting.\n\nBest wishes,\nMeetsup team": "Привет! Мы создали это мероприятие в вашем календаре, чтобы напомнить вам, что на этой неделе у вас встреча в Meetsup.\n\nМы отправили на вашу электронную почту и в мессенджер контактные данные вашего партнера по встрече. Вам осталость только написать вашему контакту «Привет!» и договориться о времени и дате встречи.\n\nС наилучшими пожеланиями,\nКоманда Meetsup"
+
+Index: Главная
+About Us: О нас
+Review: Отзывы
+Edit Profile: Редактировать профиль
+Login: Вход
+Logout: Выход
+
+Delete account: Удалить аккаунт
+Once you delete your account, there is no going back. Please be certain.: Это операция необратима!
+Delete your account: Удалить аккаунт
+Are you sure you want to do this?: Вы уверены, что хотите удалить аккаунт?
+This is extremely important.: Это очень важно
+To verify, type <b><i>delete my account</i></b> below: Для подтверждения напишите <b><i>delete my account</i></b>
+Delete this account: Удалить этот аккаунт
+Abort: Отмена
+
+Calendly link: Ссылка на Calendly

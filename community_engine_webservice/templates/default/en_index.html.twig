@@ -1,0 +1,91 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Meetsup - Online Networking{% endblock %}
+
+{% block body %}
+    <!-- ======= Hero Section ======= -->
+    <section id="hero" class="clearfix">
+        <div class="container d-flex h-100">
+            <div class="row justify-content-center align-self-center w-100" data-aos="fade-up">
+                <div class="col-md-6 intro-info order-md-first order-last" data-aos="zoom-in" data-aos-delay="100">
+                    <h3 class="index-header">
+                        Community hub for entrepreneurs and experts who are looking for new relevant business contacts
+                    </h3>
+                    <div class="mt-1 mb-5" style="font-size: 1.1em">
+                        Meetsup introduces you to new business contacts based on your professional interests and
+                        networking requests in 1 click
+                    </div>
+                    <div class="mt-2">
+                        <a href="/connect" class="btn-get-started">GO</a>
+                    </div>
+                </div>
+
+                <div class="col-md-6 intro-img order-md-last order-first" data-aos="zoom-out" data-aos-delay="200">
+                    <img src="/assets/img/top-index.svg" alt="" class="img-fluid">
+                </div>
+            </div>
+
+        </div>
+    </section><!-- End Hero -->
+
+    <main id="main">
+        <section id="about" class="why-us bg-light pt-3 pb-5">
+            <div class="container" data-aos="fade-up">
+                <header class="section-header">
+                    <h2 class="mt-5 mb-5 index-header text-center">How Meetsup works?</h2>
+                </header>
+                <div class="row" style="font-size: 1.1em">
+                    <div class="col-lg-4 text-center" data-aos="zoom-in" data-aos-delay="100">
+                        <img src="/assets/img/step-1.svg" alt="" class="img-fluid">
+                        <div class="p-4 fs-3">Specify your professional interests and networking requests</div>
+                    </div>
+                    <div class="col-lg-4 text-center" data-aos="zoom-in" data-aos-delay="100">
+                        <img src="/assets/img/step-2.svg" alt="" class="img-fluid" style="margin-top: 6px;">
+                        <div class="p-4">Our algorithm will select the most relevant business contact</div>
+                    </div>
+                    <div class="col-lg-4 text-center" data-aos="zoom-in" data-aos-delay="100">
+                        <img src="/assets/img/step-3.svg" alt="" class="img-fluid">
+                        <div class="p-4" style="margin-top: -13px;">And introduce you to selected business contact in
+                            online
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section><!-- End Why Us Section -->
+
+        <section class="pb-5 pt-5">
+            <div class="container" data-aos="fade-up">
+                <div class="row">
+                    <div class="col-md-8">
+                        <h2 class="index-header mt-5 mb-5">Every week thousands of Meetsup members find new relevant
+                            professional contacts for business and career development</h2>
+                    </div>
+                    <div class="col-md-4">
+                        <img src="/assets/img/users.svg" alt="" class="img-fluid">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="bg-dark pt-5 pb-5">
+            <div class="container" data-aos="fade-up">
+                <div class="row">
+                    <div class="col-md-8">
+                        <h2 class="mt-5">
+                            Meetsup saves you time and removes all barriers by introducing you to relevant business
+                            contacts in just 1 click. Join our community of international entrepreneurs, investors and
+                            experts!
+                        </h2>
+                        <div class="mt-5 mb-5 text-center text-md-left">
+                            <a href="/connect" class="btn btn-info btn-sign-in">I'm in</a>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <img src="/assets/img/links2.svg" alt="" class="img-fluid">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main><!-- End #main -->
+{% endblock %}

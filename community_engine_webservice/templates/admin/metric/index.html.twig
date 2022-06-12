@@ -1,0 +1,222 @@
+{% extends '@EasyAdmin/page/content.html.twig' %}
+
+{% block page_title %}Margo Interface{% endblock %}
+{% block page_actions %}
+    {#<button class="btn btn-outline-primary">Resort result</button>#}
+    {#<button class="btn btn-outline-danger" data-toggle="modal" data-target="#exampleModal">Excluded users</button>#}
+    {#<button class="btn btn-success">Go Margo</button>#}
+{% endblock %}
+
+{% block page_content %}
+    <div class="row vw-100">
+        <div class="col-md-4 card mr-3">
+            <form method="post"
+                  action="{{ ea_url({showNullable: 0}).unsetAll().setController('App\\Controller\\Admin\\MetricController').setAction('index') }}">
+                <div class="form-group">
+                    <label style="flex: 0;" for="communitySelect">Community</label>
+                    <select name="communityId" id="communitySelect" class="form-control">
+                        <option value="">Select Community</option>
+                        {% for c in communities %}
+                            <option {{ app.request.get('communityId') == c.getId() ? 'selected' }}
+                                    value="{{ c.getId() }}">{{ c.getTitle() }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                {#<div class="form-check">#}
+                {#<input type="hidden" name="readyToMatch" value="off">#}
+                {#<input type="checkbox" {{ app.request.get('readyToMatch') == 'on' or app.request.get('readyToMatch') == null ? 'checked' }}#}
+                {#name="readyToMatch" class="form-check-input" id="readyToMatchCheck">#}
+                {#<label class="form-check-label" for="readyToMatchCheck">Ready to match</label>#}
+                {#</div>#}
+                <div class="form-check">
+                    <input type="checkbox" {{ app.request.get('nullBalance') == 'on' ? 'checked' }} name="nullBalance"
+                           class="form-check-input" id="nullBalance">
+                    <label class="form-check-label" for="nullBalance">Show with nullable balance</label>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-primary mb-2" type="submit">Show</button>
+                </div>
+            </form>
+        </div>
+        <div class="card p-4">
+            <div class="form-group">
+                <a href="{{ ea_url({showNullable: 1}).setController('App\\Controller\\Admin\\MetricController').setAction('index') }}"
+                   class="btn btn-{{ app.request.get('showNullable') == 1 ? 'success' : 'primary' }} mb-2 w-100">Show
+                    nullable-rating users</a>
+            </div>
+            <div class="form-group">
+                <a class="btn btn-danger mb-2 w-100" data-toggle="modal" data-target="#modal-go-margo">Go Margo</a>
+            </div>
+        </div>
+    </div>
+
+    {% if app.request.get('showNullable') == 1 or app.request.get('communityId') is not empty %}
+
+        <br/>
+        <h3>{{ community ? 'Community: ' ~ community.getTitle() }}</h3>
+
+        {% if orders %}
+            <br/><h3>Ordered users</h3>
+            {% include 'admin/metric/_user-ordered-table.html.twig' with {
+                'orders': orders,
+                'questions': questions,
+                'fields': fields,
+                'community': community
+            } %}
+        {% endif %}
+
+        <br/><h3>Matched users</h3>
+        {% include 'admin/metric/_user-table.html.twig' with {
+            'users': users,
+            'questions': questions,
+            'fields': fields,
+            'community': community
+        } %}
+
+        {% if unsortedUsers %}
+            <br/><h3>Unsorted users</h3>
+            {% include 'admin/metric/_user-table.html.twig' with {
+                'users': unsortedUsers,
+                'questions': questions,
+                'fields': fields,
+                'community': community
+            } %}
+        {% endif %}
+    {% else %}
+        <div class="mt-5 alert alert-info">
+            Для продолжения выберите сообщество
+        </div>
+    {% endif %}
+
+    <!-- Modal -->
+    <div id="modal-go-margo" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <h4>Are you sure?</h4>
+                    <p>This action is irreversible. Do you want to proceed?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" data-dismiss="modal" class="btn btn-secondary">
+                        <span class="btn-label">Cancel</span>
+                    </button>
+
+                    <a href="{{ ea_url().setController('App\\Controller\\Admin\\MetricController').setAction('connect') }}"
+                       class="btn btn-danger" id="modal-go-margo-button">
+                        <span class="btn-label">Go Margo</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        div.tooltip-inner {
+            max-width: 550px;
+        }
+    </style>
+
+    <script>
+        $(document).on('click', '.button-metric', (e) => {
+            let elem = $(e.target),
+                value = +elem.prop('checked'),
+                user = elem.data('user'),
+                field = elem.data('field');
+            $.ajax({
+                url: "/adm-z23db/metric/save/" + user + "/" + value + "/" + field,
+            }).done(function () {
+                elem.closest('label').css('border', '1px solid green');
+            });
+        });
+
+        $(document).on('click', '.button-input-metric-balance', (e) => {
+            let elem = $(e.target).parents('.custom-field').find('input[type="text"]'),
+                value = elem.val(),
+                user = elem.data('user'),
+                community = elem.data('community');
+
+            if (value === undefined || community === undefined) {
+                return;
+            }
+            if (value === '' || community === '') {
+                return;
+            }
+            $.ajax({
+                url: "/adm-z23db/metric/save-balance/" + user + "/" + community + "/" + value,
+            }).done(function () {
+                elem.css('border', '1px solid green');
+                elem.css('background', 'lightgreen');
+            });
+        });
+
+        $(document).on('click', '.button-input-order-metric', (e) => {
+            let elem = $(e.target).parents('.order-field').find('input[type="text"]'),
+                value = elem.val(),
+                user = elem.data('user'),
+                community = elem.data('community');
+            if (value === undefined) {
+                return;
+            }
+            elem.css('border', '1px solid darksalmon');
+            elem.css('background', 'lightyellow');
+            $.ajax({
+                url: "/adm-z23db/metric/save-order/" + user + "/" + value + "/" + community,
+            }).done(function () {
+                elem.css('border', '1px solid green');
+                elem.css('background', 'lightgreen');
+                $('#user-row-' + value).css('opacity', '20%');
+            }).fail(function () {
+                elem.css('border', '1px solid red');
+                elem.css('background', 'lightcoral');
+            });
+        });
+
+        $(document).on('click', '.button-input-metric', (e) => {
+            let elem = $(e.target).parents('.custom-field').find('input[type="text"]'),
+                value = elem.val(),
+                user = elem.data('user'),
+                field = elem.data('field');
+            if (value === undefined) {
+                return;
+            }
+            if (value === '') {
+                value = null;
+            }
+            $.ajax({
+                url: "/adm-z23db/metric/save/" + user + "/" + value + "/" + field,
+            }).done(function () {
+                elem.css('border', '1px solid green');
+                elem.css('background', 'lightgreen');
+            });
+        });
+
+        $(() => {
+            $('.last').each((k, v) => {
+                let elem = $(v);
+                let prev = elem.prev().data().owner;
+                let last = elem.data().connects;
+
+                if($(prev).filter(last).length) {
+                    elem.css('background', '#FFB3B5');
+                }
+            });
+
+            let clipboard = new ClipboardJS('.copy-id', {
+                text: function (element) {
+                    return element.dataset.id;
+                }
+            });
+            clipboard.on('success', function (e) {
+                $(e.trigger).tooltip('show');
+                setTimeout(() => {
+                    $(e.trigger).tooltip('hide');
+                }, 3000);
+            });
+
+            $('select').select2();
+        });
+    </script>
+    <script src="/assets/js/clipboard.min.js"></script>
+
+    {{ include('@EasyAdmin/crud/includes/_select2_widget.html.twig') }}
+{% endblock %}

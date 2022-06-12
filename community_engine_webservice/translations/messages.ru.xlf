@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en" target-language="ru" datatype="plaintext" original="file.ext">
+    <header>
+      <tool tool-id="symfony" tool-name="Symfony"/>
+    </header>
+    <body>
+      <trans-unit id="cC75Ie0" resname="First name">
+        <source>First name</source>
+        <target>Имя</target>
+      </trans-unit>
+      <trans-unit id="e0iIBJR" resname="Last name">
+        <source>Last name</source>
+        <target>Фамилия</target>
+      </trans-unit>
+      <trans-unit id="6TbMW5_" resname="Telegram username">
+        <source>Telegram username</source>
+        <target>Имя пользователя Telegram</target>
+      </trans-unit>
+      <trans-unit id="NllIXv8" resname="Facebook link">
+        <source>Facebook link</source>
+        <target>Ссылка на профиль Facebook</target>
+      </trans-unit>
+      <trans-unit id="QdZRudD" resname="Linkedin link">
+        <source>Linkedin link</source>
+        <target>Ссылка на профиль LinkedIn</target>
+      </trans-unit>
+      <trans-unit id="Tvyg0Qx" resname="About">
+        <source>About</source>
+        <target>Кратко о себе</target>
+      </trans-unit>
+      <trans-unit id="FQn1YfJ" resname="Save">
+        <source>Save</source>
+        <target>Сохранить</target>
+      </trans-unit>
+      <trans-unit id="dpAPG.0" resname="Back">
+        <source>Back</source>
+        <target>Назад</target>
+      </trans-unit>
+      <trans-unit id="0BAq6S9" resname="Looking for">
+        <source>Looking for</source>
+        <target>Ваши ожидания от собеседника</target>
+      </trans-unit>
+      <trans-unit id="moJAKzl" resname="User.Full Name">
+        <source>User.Full Name</source>
+        <target>ФИО</target>
+      </trans-unit>
+      <trans-unit id="mMIXd5H" resname="User.Facebook Link">
+        <source>User.Facebook Link</source>
+        <target>FB</target>
+      </trans-unit>
+      <trans-unit id="WTzrUWo" resname="User.Linkedin Link">
+        <source>User.Linkedin Link</source>
+        <target>LD</target>
+      </trans-unit>
+      <trans-unit id="SSNDBGK" resname="User.About">
+        <source>User.About</source>
+        <target>О себе</target>
+      </trans-unit>
+      <trans-unit id="bLSJEp3" resname="User.Looking For">
+        <source>User.Looking For</source>
+        <target>Пожелания</target>
+      </trans-unit>
+      <trans-unit id="QuElNJG" resname="User.Answers">
+        <source>User.Answers</source>
+        <target>Ответы</target>
+      </trans-unit>
+      <trans-unit id="WuEKEdx" resname="Certificate not found">
+        <source>Certificate not found</source>
+        <target>Сертификат не найден</target>
+      </trans-unit>
+      <trans-unit id="aC8hW.B" resname="Certificate is not active">
+        <source>Certificate is not active</source>
+        <target>Этот сертификат уже был использован ранее</target>
+      </trans-unit>
+      <trans-unit id="pjCAxbW" resname="Certificate has been used already before">
+        <source>Certificate has been used already before</source>
+        <target>Этот сертификат уже был использован ранее</target>
+      </trans-unit>
+      <trans-unit id="O2fAhqu" resname="Login with">
+        <source>Login with</source>
+        <target>Войти с помощью</target>
+      </trans-unit>
+      <trans-unit id="fAKSnhb" resname="Online networking">
+        <source>Online networking</source>
+        <target>Онлайн нетворкинг c релевантными для вас профессиональными контактами. Каждую неделю Meets'up знакомит вас с новыми людьми, с учетом ваших интересов и задач</target>
+      </trans-unit>
+      <trans-unit id="zhCvuaQ" resname="Meetsup - Online networking">
+        <source>Meetsup - Online networking</source>
+        <target>Meetsup - Онлайн нетворкинг</target>
+      </trans-unit>
+      <trans-unit id="3NHVIj9" resname="Name">
+        <source>Name</source>
+        <target>Имя</target>
+      </trans-unit>
+      <trans-unit id="aJcSg4Q" resname="Subject">
+        <source>Subject</source>
+        <target>Тема</target>
+      </trans-unit>
+      <trans-unit id="L3dmip3" resname="Message">
+        <source>Message</source>
+        <target>Текст сообщения</target>
+      </trans-unit>
+      <trans-unit id="RNCYS35" resname="Your message has been sent. Thank!">
+        <source>Your message has been sent. Thank!</source>
+        <target>Ваше сообщение отправлено. Спасибо!</target>
+      </trans-unit>
+      <trans-unit id="9vRoj.I" resname="Send">
+        <source>Send</source>
+        <target>Отправить сообщение</target>
+      </trans-unit>
+      <trans-unit id="qsd980c" resname="Feedback">
+        <source>Feedback</source>
+        <target>Обратная связь</target>
+      </trans-unit>
+      <trans-unit id="kCTBl9h" resname="Links">
+        <source>Links</source>
+        <target>Полезные ссылки</target>
+      </trans-unit>
+      <trans-unit id="OnhpU4i" resname="Home">
+        <source>Home</source>
+        <target>Главная</target>
+      </trans-unit>
+      <trans-unit id="tFBkXev" resname="Contacts">
+        <source>Contacts</source>
+        <target>Контакты</target>
+      </trans-unit>
+      <trans-unit id="zXHjBRZ" resname="footer.text">
+        <source>footer.text</source>
+        <target><![CDATA[Meetsup - платформа для поиска новых профессиональных контактов, релевантных Вашим задачам и интересам<br/><br/>Присоединяйтесь и расширяйте свои профессиональные связи!]]></target>
+      </trans-unit>
+      <trans-unit id="Z6h0yok" resname="Required field">
+        <source>Required field</source>
+        <target>Поле обязательно для заполнения</target>
+      </trans-unit>
+      <trans-unit id="4D9vp3_" resname="At least 4 characters">
+        <source>At least 4 characters</source>
+        <target>Не менее 4-х символов</target>
+      </trans-unit>
+      <trans-unit id="C87PZlD" resname="Invalid email format">
+        <source>Invalid email format</source>
+        <target>Неверный формат email</target>
+      </trans-unit>
+      <trans-unit id="YdMNmX0" resname="Create profile">
+        <source>Create profile</source>
+        <target>Создание профиля</target>
+      </trans-unit>
+      <trans-unit id="ilHo6wA" resname="This information will help us to effectively find your partner">
+        <source>This information will help us to effectively find your partner</source>
+        <target>Эта информация поможет нам эффективно подобрать вам собеседника</target>
+      </trans-unit>
+      <trans-unit id="dWquoUB" resname="Interests">
+        <source>Interests</source>
+        <target>Интересы</target>
+      </trans-unit>
+      <trans-unit id="SFCxdLc" resname="Required">
+        <source>Required</source>
+        <target>Обязательно</target>
+      </trans-unit>
+      <trans-unit id="92LaBfT" resname="Surname">
+        <source>Surname</source>
+        <target>Фамилия</target>
+      </trans-unit>
+      <trans-unit id="AJ7ZUbh" resname="What is your expertise?">
+        <source>What is your expertise?</source>
+        <target>Чем занимаетесь? В чём ваша ключевая экспертиза?</target>
+      </trans-unit>
+      <trans-unit id="2M9LPot" resname="This field is visible to other members">
+        <source>This field is visible to other members</source>
+        <target>Это поле отображается другим участникам</target>
+      </trans-unit>
+      <trans-unit id="embqv2N" resname="NEXT">
+        <source>NEXT</source>
+        <target>ПРОДОЛЖИТЬ</target>
+      </trans-unit>
+      <trans-unit id="8yT3j.1" resname="You can choose several options (no more than 3)">
+        <source>You can choose several options (no more than 3)</source>
+        <target>Можно выбрать несколько вариантов (не более 3-х)</target>
+      </trans-unit>
+      <trans-unit id="QprPSuA" resname="You can choose one option">
+        <source>You can choose one option</source>
+        <target>Можно выбрать один вариант</target>
+      </trans-unit>
+      <trans-unit id="23HNL7d" resname="Your wishes for find of partners relevant to you">
+        <source>Your wishes for find of partners relevant to you</source>
+        <target>Ваши пожелания для подбора релевантных Вам партнеров</target>
+      </trans-unit>
+      <trans-unit id="7nxwHxK" resname="Requests for networking must be filled">
+        <source>Requests for networking must be filled</source>
+        <target>Необходимо заполнить пожелания для нетворкинга</target>
+      </trans-unit>
+      <trans-unit id="LUG25sk" resname="This information will help us to effectively find you a partner">
+        <source>This information will help us to effectively find you a partner</source>
+        <target>__This information will help us to effectively find you a partner</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

@@ -1,0 +1,168 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Meetsup Community Networking{% endblock %}
+
+{% block stylesheets %}
+    <style>
+        .profile-avatar {
+            min-height: 220px;
+            height: 100%;
+            border: 0;
+            background: center / cover no-repeat;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <main id="main">
+
+        <!-- ======= Breadcrumbs ======= -->
+        <section id="breadcrumbs" class="breadcrumbs d-none d-lg-block bg-light">
+            <div class="container">
+                {% include 'user/profile/_nav.html.twig' %}
+            </div>
+        </section><!-- End Breadcrumbs -->
+
+        <section class="inner-page pt-4">
+            <div class="container">
+                {# total items count #}
+                {#<div class="count">#}
+                {#{{ pagination.getTotalItemCount }}#}
+                {#</div>#}
+                {#<table>#}
+                {#<tr>#}
+                {# sorting of properties based on query components #}
+                {#<th>{{ knp_pagination_sortable(pagination, 'Id', 'c.id') }}</th>#}
+                {#<th{% if pagination.isSorted('c.uuid') %} class="sorted"{% endif %}>#}
+                {#{{ knp_pagination_sortable(pagination, 'Uuid', 'c.uuid') }}#}
+                {#</th>#}
+                {#<th{% if pagination.isSorted('c.created_at') %} class="sorted"{% endif %}>#}
+                {#{{ knp_pagination_sortable(pagination, 'Created At', 'c.created_at') }}#}
+                {#</th>#}
+                {#</tr>#}
+                {#</table>#}
+                {% if pagination is empty %}
+                    <div class="mt-5 mb-5">
+                        <p>
+                            {% trans %}Soon there will be contact details and other information about the chosen partners for meetings{% endtrans %}
+                        </p>
+                    </div>
+                {% endif %}
+                {% for call in pagination %}
+                    {% set user = call.getCallUsersNot(app.user).first() %}
+                    {% if user %}
+                        {% set user = user.getUser() %}
+                        <div class="card mb-3">
+                            <div class="row no-gutters">
+                                <div class="col-md-2">
+                                    <div class="card-img profile-avatar"
+                                         style="background-image: url('{{ user.getPictureUrl() }}'); z-index: 99;">
+                                    </div>
+                                </div>
+                                <div class="col-md-10">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ user.getFirstName()|e }} {{ user.getLastName()|e }}</h5>
+                                        <div>
+                                            {{ user.about|e }}
+                                        </div>
+                                        <div class="card-text">
+                                            <small>
+                                                <strong>E-Mail:</strong> <a
+                                                        href="mailto:{{ user.email|e }}">{{ user.email|e }}</a>
+                                                {{ user.facebookLink ? ("<br/><strong>Facebook:</strong> <a target=\"_blank\" href=\"" ~ user.facebookLink|e ~ "\">" ~ user.facebookLink|e ~ "</a>")|raw }}
+                                                {{ user.linkedinLink ? ("<br/><strong>LinkedIn:</strong> <a target=\"_blank\" href=\"" ~ user.linkedinLink|e ~ "\">" ~ user.linkedinLink|e ~ "</a>")|raw }}
+                                                {{ user.telegramUsername ? ("<br/><strong>Telegram:</strong> <a href=\"tg://resolve?domain=" ~ user.telegramUsername|e ~ "\">" ~ user.telegramUsername|e ~ "</a>")|raw }}
+                                                {% for question in user.getQuestions() %}
+                                                    <br/><strong>{{ question.getDeclarativeTitle() }}
+                                                    :</strong> {{ question.getAnswers()|e }}
+                                                {% endfor %}
+                                            </small>
+                                        </div>
+                                        <div class="card-text">
+                                            <small class="text-muted">
+                                                {% trans %}The meeting date{% endtrans %}
+                                                : {{ call.createdAt|date('d.m.Y') }}
+                                            </small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <div class="row">
+                                    {% set note = call.getConnectNotes().first() %}
+                                    <textarea oninput="autoGrow(this)"
+                                              data-connect-id="{{ call.getUuid() }}"
+                                              data-note-id="{{ note ? note.getId() }}"
+                                              class="text-note form-control"
+                                              placeholder="{% trans %}Your notes{% endtrans %}">{{ note }}</textarea>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-7 mt-2">
+                                        <small>
+                                            {% trans %}Here you can leave the outcomes of the meeting, such as possible topics and offers to the partner. The information is visible only to you.{% endtrans %}
+                                        </small>
+                                    </div>
+                                    <div class="col-md-5 mt-3">
+                                        <button class="btn btn-info rounded-pill pull-right save-note">
+                                            {% trans %}Save{% endtrans %}
+                                        </button>
+                                        <div class="spinner-border text-success pull-right mt-1 mr-4 d-none"
+                                             role="status">
+                                            <span class="sr-only">Loading...</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+                {# display navigation #}
+                <br/>
+                <div class="navigation">
+                    {{ knp_pagination_render(pagination) }}
+                </div>
+            </div>
+        </section>
+
+    </main>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        function autoGrow(element) {
+            element.style.height = "76px";
+            element.style.height = (element.scrollHeight) + "px";
+        }
+
+        $(() => {
+            $(".text-note").each(function (textarea) {
+                $(this).height($(this)[0].scrollHeight);
+            });
+
+            $(document).on('click', '.save-note', (e) => {
+                let textarea = $(e.target).closest('.card-footer').find('textarea'),
+                    spinner = $(e.target).closest('.card-footer').find('.spinner-border'),
+                    connectId = textarea.data('connect-id'),
+                    noteId = textarea.data('note-id'),
+                    noteIdUrlSegment = noteId === '' ? '' : '/' + noteId;
+
+                spinner.removeClass('d-none');
+
+                $.ajax({
+                    type: "POST",
+                    dataType: 'json',
+                    url: "/user/network/note/" + connectId + noteIdUrlSegment,
+                    data: {
+                        content: textarea.val()
+                    },
+                    success: (response) => {
+                        if (response.noteId !== undefined) {
+                            textarea.data('note-id', Number(response.noteId));
+                        }
+                        spinner.addClass('d-none');
+                    }
+                });
+            });
+        });
+    </script>
+{% endblock %}

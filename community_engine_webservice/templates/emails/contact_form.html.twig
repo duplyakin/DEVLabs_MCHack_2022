@@ -1,0 +1,15 @@
+{% if app.user %}
+    <div style="padding: 1em; float: left;">
+        <img src="{{ absolute_url(app.user.getPictureUrl()) }}" style="width: 140px;"/>
+    </div>
+{% endif %}
+<div style="float: left;">
+    <h3>{{ name|e }}</h3>
+    <h4>{{ email|e }}</h4>
+    {% if app.user %}
+        <h4>User ID#{{ app.user.getId() }}</h4>
+    {% endif %}
+</div>
+<div style="clear: both;"></div>
+<hr noshade/>
+{{ message|e|nl2br }}

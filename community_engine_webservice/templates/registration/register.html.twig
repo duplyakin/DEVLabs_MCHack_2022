@@ -1,0 +1,41 @@
+{% extends 'base_clean.html.twig' %}
+
+{% form_theme registrationForm 'bootstrap_4_layout.html.twig' %}
+
+{% block title %}Register - Meetsup{% endblock %}
+
+{% block body %}
+    <div style="background-color:#f2f2f2; height:100vh;">
+        <div class="container h-100 d-flex justify-content-center align-items-center">
+            <div class="my-auto" style="min-width: 325px;">
+                {% for flashError in app.flashes('verify_email_error') %}
+                    <div class="alert alert-danger" role="alert">{{ flashError }}</div>
+                {% endfor %}
+
+                <h1 class="logo mr-auto text-center">
+                    <a href="/"
+                       style='letter-spacing: 3px; color: #514F7E; font-weight: 700; font-family: "Gilroy-Bold", "Montserrat", sans-serif'>
+                        <img src="{{ asset('assets/img/logo.svg') }}">
+                        MEET<span style="color: #1bb1dc">S</span>UP
+                    </a>
+                </h1>
+                <p class="text-center">Register new user</p>
+
+                {{ form_start(registrationForm) }}
+                {{ form_errors(registrationForm) }}
+                {{ form_row(registrationForm.email) }}
+                {{ form_row(registrationForm.plainPassword, {
+                    label: 'Password'
+                }) }}
+                {% set termsOfUseFormGroup %}
+                    {{ form_row(registrationForm.agreeTerms) }}
+                {% endset %}
+
+                {{ termsOfUseFormGroup|replace({'#TERMS_OF_USE_LINK#':'<a href="' ~ path('app_privacy_policy') ~ '">Privacy Policy</a>'})|raw }}
+
+                <button type="submit" class="btn btn-primary w-100">Register</button>
+                {{ form_end(registrationForm) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

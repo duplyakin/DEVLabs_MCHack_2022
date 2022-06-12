@@ -1,0 +1,88 @@
+framework:
+    messenger:
+        # Uncomment this (and the failed transport below) to send failed messages to this transport for later handling.
+        failure_transport: failed
+
+        transports:
+            # https://symfony.com/doc/current/messenger.html#transport-configuration
+            deferred:
+                dsn: '%env(MESSENGER_TRANSPORT_DSN)%/%2f/deferred'
+                options:
+                    frame_max: 2097152
+                    exchange:
+                        name: deferred
+                retry_strategy:
+                    max_retries: 12
+                    delay: 1000
+                    multiplier: 2
+                    max_delay: 0
+            mail_async:
+                dsn: '%env(MESSENGER_TRANSPORT_DSN)%/%2f/mail_async'
+                options:
+                    frame_max: 2097152
+                    exchange:
+                        name: mail_async
+                retry_strategy:
+                    max_retries: 12
+                    delay: 1000
+                    multiplier: 2
+                    max_delay: 0
+            telegram_async:
+                dsn: '%env(MESSENGER_TRANSPORT_DSN)%/%2f/telegram_async'
+                options:
+                    frame_max: 2097152
+                    exchange:
+                        name: telegram_async
+                retry_strategy:
+                    max_retries: 3
+                    delay: 1000
+                    multiplier: 1
+                    max_delay: 0
+            telegram_bot_async:
+                dsn: '%env(MESSENGER_TRANSPORT_DSN)%/%2f/telegram_bot_async'
+                options:
+                    frame_max: 2097152
+                    exchange:
+                        name: telegram_bot_async
+                retry_strategy:
+                    max_retries: 3
+                    delay: 1000
+                    multiplier: 1
+                    max_delay: 0
+            async:
+                dsn: '%env(MESSENGER_TRANSPORT_DSN)%/%2f/async'
+                options:
+                    frame_max: 2097152
+                    exchange:
+                        name: async
+                retry_strategy:
+                    max_retries: 3
+                    delay: 1000
+                    multiplier: 1
+                    max_delay: 0
+            async_low:
+                dsn: '%env(MESSENGER_TRANSPORT_DSN)%/%2f/async_low'
+                options:
+                    frame_max: 2097152
+                    exchange:
+                        name: async_low
+                retry_strategy:
+                    max_retries: 12
+                    delay: 6000
+                    multiplier: 1
+                    max_delay: 0
+            failed: '%env(MESSENGER_TRANSPORT_DSN)%/%2f/deadletter'
+            # sync: 'sync://'
+
+        routing:
+            # Route your messages to the transports
+            'App\Message\DeferredNotificationMessage': deferred
+            'App\Message\SendTelegramMessage': telegram_async
+            'App\Message\CreateTelegramGroupMessage': telegram_async
+            'App\Message\SendEmailMessage': mail_async
+            'App\Message\ConnectMessage': async
+            'App\Message\MLSentimentMessage': async
+            'App\Message\ConnectByCommunityMessage': async
+            'App\Message\TelegramBotSendMessage': telegram_bot_async
+            'App\Message\TelegramAnswerCallbackMessage': telegram_bot_async
+            'BoShurik\TelegramBotBundle\Messenger\TelegramMessage': telegram_bot_async

@@ -1,0 +1,246 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Meetsup - Онлайн нетворкинг с релевантными для вас профессиональными контактами{% endblock %}
+
+{% block body %}
+    <!-- ======= Hero Section ======= -->
+    <section id="hero" class="clearfix pt-0 pt-md-5" style="height: auto;">
+        <div class="container d-flex h-100 mt-5">
+            <div class="row justify-content-center align-self-center" data-aos="fade-up">
+                <div class="col-md-6 intro-info order-md-first order-last" data-aos="zoom-in" data-aos-delay="100">
+                    <h3 class="index-header">
+                        Платформа Meetsup создает простые и понятные условия для онлайн встреч участников Вашего
+                        комьюнити
+                    </h3>
+                    <div class="mt-1 mb-5" style="font-size: 1.1em">
+                        Алгоритм Meetsup анализирует интересы участников Вашего комьюнити и подбирает наиболее
+                        релевантных партнеров для онлайн встреч
+                    </div>
+                    <div class="mt-2">
+                        <button type="button" class="btn-get-started border-0" data-toggle="modal" data-target="#contact_modal">
+                            Подробности
+                        </button>
+                    </div>
+                </div>
+
+                <div class="col-md-6 intro-img order-md-last order-first" data-aos="zoom-out" data-aos-delay="200">
+                    <img src="{{ asset('assets/img/meetsup-b2b.svg') }}" alt="" class="img-fluid">
+                </div>
+            </div>
+
+        </div>
+    </section><!-- End Hero -->
+
+    <main id="main">
+        <section id="about" class="why-us bg-light pt-3 pb-5">
+            <div class="container" data-aos="fade-up">
+                <header class="section-header">
+                    <h2 class="mt-5 mb-5 index-header text-center">Как работает Meetsup?</h2>
+                </header>
+                <div class="row" style="font-size: 1.1em">
+                    <div class="col-lg-4 text-center" data-aos="zoom-in" data-aos-delay="100">
+                        <img src="/assets/img/step-1.svg" alt="" class="img-fluid">
+                        <div class="p-4 fs-3">
+                            Еженедельно знакомим участников Вашего комьюнити друг с другом, с учетом
+                            их интересов и пожеланий
+                        </div>
+                    </div>
+                    <div class="col-lg-4 text-center" data-aos="zoom-in" data-aos-delay="100">
+                        <img src="/assets/img/step-2.svg" alt="" class="img-fluid" style="margin-top: 6px;">
+                        <div class="p-4">
+                            Создаём эффект «теплого» интро, представляя пользователей друг другу в Telegram и Email
+                        </div>
+                    </div>
+                    <div class="col-lg-4 text-center" data-aos="zoom-in" data-aos-delay="100">
+                        <img src="/assets/img/step-3.svg" alt="" class="img-fluid">
+                        <div class="p-4" style="margin-top: -13px;">
+                            Встречи проходят только в онлайне, стирая все «границы»
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section><!-- End Why Us Section -->
+
+        <section class="pb-5 pt-5">
+            <div class="container" data-aos="fade-up">
+                <div class="row">
+                    <div class="col-md-8">
+                        <h2 class="index-header mt-5 mb-5">
+                            Подключите Meetsup и получите уникальные инструменты общения с участниками Вашего
+                            сообщества, а также новые способы монетизации
+                        </h2>
+                    </div>
+                    <div class="col-md-4">
+                        <img src="/assets/img/users.svg" alt="" class="img-fluid">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="bg-dark pt-5 pb-5">
+            <div class="container" data-aos="fade-up">
+                <div class="row">
+                    <div class="col-md-8">
+                        <h2 class="mt-5">
+                            Meetsup помогает устанавливать новые
+                            полезные связи
+                        </h2>
+                        <div class="mt-5 mb-5 text-center text-md-left">
+                            <button type="button" class="btn btn-info btn-sign-in" data-toggle="modal" data-target="#contact_modal">
+                                Подробности
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <img src="/assets/img/links2.svg" alt="" class="img-fluid">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main><!-- End #main -->
+
+    <!-- Modal -->
+    <div class="modal fade" id="contact_modal" tabindex="-1" role="dialog" aria-labelledby="contact_modal_label"
+         aria-hidden="true">
+        <form action="/contact" method="post" role="form" class="php-email-form">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Партнерство с Meetsup</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" name="contact_form[_token]"
+                               value="{{ csrf_token('contact_form') }}"
+                        >
+                        <div class="form-group">
+                            <input type="text" name="contact_form[name]" class="form-control" id="name"
+                                   placeholder="Имя"
+                                   data-rule="minlen:4" data-msg="Не менее 4-х символов"/>
+                            <div class="validate"></div>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" class="form-control" name="contact_form[email]" id="email"
+                                   placeholder="Email" data-rule="email"
+                                   data-msg="Неверный формат email"/>
+                            <div class="validate"></div>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" name="contact_form[subject]" id="subject"
+                                   placeholder="Тема" data-rule="minlen:4"
+                                   value="Партнерство с Meetsup"
+                                   data-msg="Не менее 4-х символов"/>
+                            <div class="validate"></div>
+                        </div>
+                        <div class="form-group">
+                                <textarea class="form-control" name="contact_form[message]" rows="5"
+                                          data-rule="required"
+                                          data-msg="Поле обязательно для заполнения"
+                                          placeholder="Текст сообщения"></textarea>
+                            <div class="validate"></div>
+                        </div>
+
+                        <div class="mb-3">
+                            <div class="loading">Загрузка</div>
+                            <div class="error-message"></div>
+                            <div class="sent-message">Ваше сообщение отправлено. Спасибо!</div>
+                        </div>
+
+                        <div class="text-center">
+                            <button type="submit" title="Send Message">Отправить сообщение</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <style>
+        #contact_modal .php-email-form .validate {
+            display: none;
+            color: red;
+            margin: 0 0 15px 0;
+            font-weight: 400;
+            font-size: 13px;
+        }
+
+        #contact_modal .php-email-form .error-message {
+            display: none;
+            color: #fff;
+            background: #ed3c0d;
+            text-align: left;
+            padding: 15px;
+            font-weight: 600;
+        }
+
+        #contact_modal .php-email-form .error-message br + br {
+            margin-top: 25px;
+        }
+
+        #contact_modal .php-email-form .sent-message {
+            display: none;
+            color: #fff;
+            background: #18d26e;
+            text-align: center;
+            padding: 15px;
+            font-weight: 600;
+        }
+
+        #contact_modal .php-email-form .loading {
+            display: none;
+            background: #fff;
+            text-align: center;
+            padding: 15px;
+        }
+
+        #contact_modal .php-email-form .loading:before {
+            content: "";
+            display: inline-block;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            margin: 0 10px -6px 0;
+            border: 3px solid #18d26e;
+            border-top-color: #eee;
+            -webkit-animation: animate-loading 1s linear infinite;
+            animation: animate-loading 1s linear infinite;
+        }
+
+        #contact_modal .php-email-form input, #contact_modal .php-email-form textarea {
+            border-radius: 0;
+            box-shadow: none;
+            border: 1px solid #dce1ec;
+            font-size: 14px;
+        }
+
+        #contact_modal .php-email-form input::focus, #contact_modal .php-email-form textarea::focus {
+            background-color: #1bb1dc;
+        }
+
+        #contact_modal .php-email-form input {
+            padding: 20px 15px;
+        }
+
+        #contact_modal .php-email-form textarea {
+            padding: 12px 15px;
+        }
+
+        #contact_modal .php-email-form button[type="submit"] {
+            background: #1bb1dc;
+            border: 0;
+            border-radius: 3px;
+            padding: 8px 30px;
+            color: #fff;
+            transition: 0.3s;
+        }
+
+        #contact_modal .php-email-form button[type="submit"]:hover {
+            background: #0a98c0;
+            cursor: pointer;
+        }
+    </style>
+{% endblock %}

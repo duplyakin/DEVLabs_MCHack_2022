@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Community Manager Area{% endblock %}
+
+{% block body %}
+    <main id="main">
+
+        <!-- ======= Breadcrumbs ======= -->
+        <section id="breadcrumbs" class="breadcrumbs d-none d-lg-block bg-light">
+            <div class="container">
+                {% include 'user/profile/_nav.html.twig' %}
+            </div>
+        </section><!-- End Breadcrumbs -->
+
+        <section class="inner-page pt-4 mb-5">
+            <div class="container">
+                <div class="mt-3">
+                    {% for message in app.flashes('success') %}
+                        <div class="alert alert-success">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <h1>Communities Admin</h1>
+
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">Logo</th>
+                        <th scope="col">Title</th>
+                        <th scope="col" style="width: 300px;">Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for community in app.user.getManageCommunities() %}
+                        <tr>
+                            <td><img src="{{ community.getLogoUrl() }}" width="150"/></td>
+                            <td>{{ community.getTitle() }}</td>
+                            <td>
+                                <a href="{{ path('manager_community_users', {'url': community.getUrl()}) }}"
+                                   class="btn btn-outline-primary">Users</a>
+                                <a href="{{ path('manager_community_analytics', {'url': community.getUrl()}) }}"
+                                   class="btn btn-outline-primary">Analytics</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+
+            </div>
+        </section>
+    </main>
+
+{% endblock %}

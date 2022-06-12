@@ -1,0 +1,161 @@
+<table class="table">
+    <thead class="thead-dark">
+    <tr>
+        <th scope="col" style="min-width: 145px;">Direct</th>
+        {#<th scope="col" style="min-width: 145px;">Balance</th>#}
+        <th scope="col" style="min-width: 90px;"></th>
+        <th scope="col" style="min-width: 225px;">Name</th>
+        <th scope="col" style="min-width: 225px;">About</th>
+        <th scope="col" style="min-width: 225px;">Looking for</th>
+        <th scope="col" style="min-width: 70px;">Rank</th>
+        {% for field in fields %}
+            <th scope="col" style="min-width: 145px;">{{ field.getLabel() }}</th>
+        {% endfor %}
+        <th scope="col" style="min-width: 70px;">Rate</th>
+        <th scope="col" style="min-width: 82px;">Answers</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for key, userData in users %}
+        {% set user = userData.user %}
+        <tr {% if (key+1) is even %}class="last" style="border-bottom: 2px solid black"{% else %}class="first"{% endif %} id="user-row-{{ user.getId() }}" data-connects="[{{ user.getUserConnects()|join(',') }}]" data-owner="[{{ user.getId() }}]">
+            <td>
+                <div class="input-group order-field">
+                    <input type="text"
+                           value=""
+                           style="max-width: 60px"
+                           data-user="{{ user.getId() }}"
+                           data-community="{{ community.getId() }}"
+                           class="form-control custom-input">
+                    <div class="input-group-append">
+                        <button class="btn btn-info shadow-none button-input-order-metric" type="button"><i
+                                    class="far fa-save"></i>
+                        </button>
+                    </div>
+                </div>
+            </td>
+            {#<td>#}
+            {#<div class="input-group custom-field">#}
+            {#<input type="text"#}
+            {#value=""#}
+            {#style="max-width: 60px"#}
+            {#data-user="{{ user.getId }}"#}
+            {#data-community="{{ community is empty ? '' : community.getId() }}"#}
+            {#class="form-control custom-input">#}
+            {#<div class="input-group-append">#}
+            {#<button class="btn btn-info shadow-none button-input-metric-balance" type="button"><i#}
+            {#class="far fa-save"></i>#}
+            {#</button>#}
+            {#</div>#}
+            {#</div>#}
+            {#<div>#}
+            {#{% if community %}#}
+            {#{% set balance = user.getBalanceByCommunity(community) %}#}
+            {#{{ balance is empty ? '' : balance.getValue() }}#}
+            {#{% endif %}#}
+            {#</div>#}
+            {#</td>#}
+            <td>
+                <a
+                        data-toggle="tooltip"
+                        data-trigger="manual"
+                        class="copy-id"
+                        title="Copied!"
+                        data-id="{{ user.getId() }}"
+                        href="javascript:;"
+                >
+                    <img style="max-width: 50px" src="{{ user.getPictureUrl }}" border="0"/>
+                </a>
+            </td>
+            <td>
+                <a href="{{ ea_url()
+                .setController('App\\Controller\\Admin\\UserCrudController')
+                .setAction('edit')
+                .setEntityId(user.getId()) }}" target="_blank">
+                    {{ user.getFullName() }}[ID:{{ user.getId() }}]
+                </a>
+                <br/>[tg={{ user.getTelegramId() }}]
+                <div style="font-size: 18px;">
+                    {% if user.getFacebookLink() %}
+                        <a href="{{ user.getFacebookLink()|e }}" target="_blank">
+                            <i class="m-1 fab fa-facebook-square"></i>
+                        </a>
+                    {% endif %}
+                    {% if user.getLinkedinLink() %}
+                        <a href="{{ user.getLinkedinLink()|e }}" target="_blank">
+                            <i class="ml-1 fab fa-linkedin"></i>
+                        </a>
+                    {% endif %}
+                    {% if user.getUserConnects() %}
+                        <a href="javascript:;" data-toggle="tooltip" data-placement="bottom"
+                           title="{{ user.getUserConnects()|join(', ') }}">
+                            <i class="ml-1 fas fa-phone"></i>
+                        </a>
+                    {% endif %}
+                </div>
+            </td>
+            <td>
+                {% if user.getAbout() %}
+                    {{ user.getAbout()|striptags("<u>")|raw }}
+                {% else %}
+                    none
+                {% endif %}
+            </td>
+            <td>
+                {% if user.getUserCommunitySettings().first() %}
+                    {{ user.getUserCommunitySettings().first().getLookingFor()|striptags("<u>")|raw }}
+                {% else %}
+                    none
+                {% endif %}
+            </td>
+            <td class="text-center">
+                    {{ userData.rank|number_format(5) }}
+            </td>
+            {% for field in fields %}
+                {% if field.getType() == constant('App\\Entity\\UserMetricField::TYPE_BOOLEAN') %}
+                    <td>
+                        <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                            <label class="btn btn-outline-primary">
+                                <input {{ user.getFirstMetricValueByField(field) ? 'checked' : '' }}
+                                        data-user="{{ user.getId }}"
+                                        data-field="{{ field.getId() }}"
+                                        class="button-metric"
+                                        type="checkbox"
+                                        autocomplete="off"> {{ field.getLabel() }}
+                            </label>
+                        </div>
+                    </td>
+                {% endif %}
+                {% if field.getType() == constant('App\\Entity\\UserMetricField::TYPE_FLOAT') %}
+                    <td>
+                        <div class="input-group custom-field">
+                            <input type="text"
+                                   value="{{ user.getFirstMetricValueByField(field) ?? '' }}"
+                                   style="max-width: 60px"
+                                   class="form-control custom-input"
+                                   data-user="{{ user.getId }}"
+                                   data-field="{{ field.getId() }}"
+                                   placeholder="0.00">
+                            <div class="input-group-append">
+                                <button class="btn btn-info shadow-none button-input-metric" type="button"><i
+                                            class="far fa-save"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </td>
+                {% endif %}
+            {% endfor %}
+            <td class="text-center">{{ userData.rate }}</td>
+            {#{% for question in questions %}#}
+            <td>
+                {% for answer in user.answers %}
+                    {#{% if question.id == answer.question.id %}#}
+                    <span class="badge badge-{{ answer.getId() in user.getIntersectAnswers() ? (answer.getRelatedAnswer() and answer.getRelatedAnswer().getId() in user.getIntersectAnswers() ? 'success' : 'danger') : 'secondary' }} m-0">{{ answer.title }}</span>
+                    {#{% endif %}#}
+                {% endfor %}
+            </td>
+            {#{% endfor %}#}
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>

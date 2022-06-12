@@ -1,0 +1,7 @@
+boshurik_telegram_bot:
+    api:
+        token: "%env(TELEGRAM_BOT_TOKEN)%"
+    guard:
+        default_target_route: user_communities      # redirect after login success
+        guard_route: _telegram_login                # guard route
+        login_route: app_login                      # optional, if login fails user will be redirected there

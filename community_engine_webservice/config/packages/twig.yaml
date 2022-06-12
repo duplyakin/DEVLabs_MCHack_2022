@@ -1,0 +1,8 @@
+twig:
+    default_path: '%kernel.project_dir%/templates'
+    globals:
+        default_host: '%env(DEFAULT_HOST)%'
+        tg_bot_name: '%env(TELEGRAM_BOT_NAME)%'
+        communityService: "@communityService"
+        securityService: "@securityService"
+        supportEmail: "%env(MAIL_SUPPORT)%"

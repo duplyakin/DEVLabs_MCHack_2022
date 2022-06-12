@@ -1,0 +1,73 @@
+{% if user %}
+    <div class="card card-body border-0 p-0">
+        <div class="row text-muted review" data-user="{{ user.getId() }}" data-connect="{{ callUuid }}">
+            <div class="col-lg-4 d-flex align-self-center justify-content-center">
+                <div class="col-8 col-lg-12">
+                    <div class="image-cropper profile-edit-avatar mx-auto"
+                         style="background-image: url('{{ user.getPictureUrl() }}'); z-index: 99;">
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-8 d-flex align-self-center justify-content-center p-3 p-md-0">
+                <div>
+                    <div class="connect-quest">
+                        <div class="row d-flex align-self-center justify-content-center">
+                            <div class="row text-center w-100 col-11 col-lg-12">
+                                {% trans with {'{firstName}': user.firstName|e} %}
+                                    Have you met {firstName}?
+                                {% endtrans %}
+                            </div>
+                            <div class="row mt-3 w-100">
+                                <div class="col-6 mb-3">
+                                    <button class="btn btn-outline-success btn-sm w-100 btn rounded-pill connect-yes">
+                                        {% trans %}Yes{% endtrans %}
+                                    </button>
+                                </div>
+                                <div class="col-6">
+                                    <button class="btn btn-outline-secondary btn-sm w-100 btn rounded-pill connect-no">
+                                        {% trans %}No{% endtrans %}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row d-none connect-rate pr-3 pl-3">
+                        <div class="text-justify" style="font-size: 0.9rem;">
+                            {% trans %}How relevant was this contact to your interests and requests? Your score is visible only to you.{% endtrans %}
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="pull-left pr-3 pt-2"><b>{% trans %}Your score{% endtrans %}:</b></div>
+                        <div class="pull-left stars-container"></div>
+                    </div>
+                    <div class="row d-none connect-thanks">
+                        <div class="text-center pr-2 pl-2">
+                            {% trans %}Thank you{% endtrans %}!
+                            <span class="d-none nice-rate" style="font-size: 0.9rem;">
+                                {% trans with {'{community}': community.getTitle()|e} %}
+                                    Invite a friend or partner to the {community} community online meetings! Your&nbsp;personal&nbsp;invite&nbsp;👇
+                                {% endtrans %}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="row d-none nice-rate text-center">
+                        <div class="col-12">
+                            {% include "user/_share.html.twig" with {
+                                'community': community,
+                                'text': 'Присоединяйтесь к сообществу {community} в Meetsup!'|trans({'{community}': community.getTitle()|e})|url_encode,
+                                'url': url('landing', {
+                                    'subdomain': community.getUrl(),
+                                    'host': default_host,
+                                    '_i': app.user.getPublicId(),
+                                }),
+                            } %}
+                        </div>
+                    </div>
+                    <div class="row d-none connect-fail text-center">
+                        {% trans %}Thanks for the information.<br/>You response has just made Meetsup better!{% endtrans %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br/>
+{% endif %}

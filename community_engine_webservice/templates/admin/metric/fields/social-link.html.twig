@@ -1,0 +1,12 @@
+<div style="width: 50px; font-size: 24px; text-align: center;">
+    {% if entity.instance.getUser().facebookLink %}
+        <a href="{{ entity.instance.getUser().facebookLink|e }}" target="_blank">
+            <i class="fab fa-facebook-square"></i>
+        </a>
+    {% endif %}
+    {% if entity.instance.getUser().linkedinLink %}
+        <a href="{{ entity.instance.getUser().linkedinLink|e }}" target="_blank">
+            <i class="fab fa-linkedin"></i>
+        </a>
+    {% endif %}
+</div>

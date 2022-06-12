@@ -1,0 +1,81 @@
+security:
+    encoders:
+        App\Entity\User:
+            algorithm: auto
+        App\Entity\UserAdmin:
+            algorithm: auto
+
+    # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
+    providers:
+        # used to reload user from session & other features (e.g. switch_user)
+        app_user_provider:
+            entity:
+                class: App\Entity\User
+                property: email
+        admin_user_provider:
+            entity:
+                class: App\Entity\UserAdmin
+                property: email
+
+        # used to reload user from session & other features (e.g. switch_user)
+    firewalls:
+        telegram_bot:
+            pattern: ^/_telegram/ae1c10f9-702a-4401-8e2c-f78735a67468$
+            security: false
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+        admin:
+            pattern: ^/adm
+            remember_me:
+                secret: '%kernel.secret%'
+                lifetime: 604800
+            anonymous: true
+            lazy: true
+            provider: admin_user_provider
+            logout:
+                path: admin_logout
+            form_login:
+                check_path: admin_login
+                login_path: admin_login
+                default_target_path: admin
+            guard:
+                authenticators:
+                    - App\Security\AdminAuthenticator
+        main:
+            pattern: ^/
+            remember_me:
+                secret: '%kernel.secret%'
+                lifetime: 31104000
+                always_remember_me: true
+            anonymous: true
+            lazy: true
+            provider: app_user_provider
+            logout:
+                path: app_logout
+            form_login:
+                check_path: app_login
+                login_path: app_login
+            guard:
+                authenticators:
+                    - App\Security\AppLoginAuthenticator
+                    - App\Security\FacebookAuthenticator
+                    - App\Security\GoogleAuthenticator
+                    - App\Security\GoogleOneTapAuthenticator
+                    - BoShurik\TelegramBotBundle\Guard\TelegramAuthenticator
+                    - App\Security\TokenAuthenticator
+                entry_point: App\Security\FacebookAuthenticator
+
+            # activate different ways to authenticate
+            # https://symfony.com/doc/current/security.html#firewalls-authentication
+
+            # https://symfony.com/doc/current/security/impersonating_user.html
+            # switch_user: true
+
+    # Easy way to control access for large sections of your site
+    # Note: Only the *first* access control that matches will be used
+    access_control:
+         - { path: ^/user, roles: ROLE_USER }
+         - { path: ^/manager, roles: ROLE_COMMUNITY_MANAGER }
+         - { path: ^/adm-z23db/DChlcLp9MelwEI5Xl03F, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+         - { path: ^/adm, roles: ROLE_ADMIN }
